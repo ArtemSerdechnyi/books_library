@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils.datetime_safe import datetime
+from django.utils.datetime_safe import date
 
 from .utils import get_book_path
 
@@ -39,7 +39,7 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author, ralated_name='books')
     genre = models.ManyToManyField(Genre, related_name='books')
     year_of_publication = models.IntegerField(
-        validators=[MinValueValidator(-1000), MaxValueValidator(datetime.now().year)],
+        validators=[MinValueValidator(-1000), MaxValueValidator(date.year)],
     )
     file = models.FileField(upload_to=get_book_path)
 
