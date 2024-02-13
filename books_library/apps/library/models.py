@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils.datetime_safe import date
+from django.utils.datetime_safe import datetime
 
 from .utils import get_book_path
 
@@ -36,15 +36,18 @@ class Genre(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    authors = models.ManyToManyField(Author, ralated_name='books')
+    authors = models.ManyToManyField(Author, related_name='books')
     genre = models.ManyToManyField(Genre, related_name='books')
     year_of_publication = models.IntegerField(
-        validators=[MinValueValidator(-1000), MaxValueValidator(date.year)],
+        validators=[MinValueValidator(-1000), MaxValueValidator(datetime.now().year)],
     )
     file = models.FileField(upload_to=get_book_path)
 
-    class Meta:
-        unique_together = ('title', 'authors')
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            if Book.objects.filter(title=self.title, authors__in=self.authors.all()).exists():
+                raise ValueError("A book with the same title and authors already exists.")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
