@@ -7,5 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # site paths
+    path('account/', include('apps.account.urls', namespace='account')),
     path('', include('apps.library.urls', namespace='library')),
 ]
