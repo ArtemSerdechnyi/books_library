@@ -42,6 +42,8 @@ class Book(models.Model):
         validators=[MinValueValidator(-1000), MaxValueValidator(datetime.now().year)],
     )
     file = models.FileField(upload_to=get_book_path)
+    added_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True,
+                                 related_name='added_books')
 
     def save(self, *args, **kwargs):
         if not self.pk:
