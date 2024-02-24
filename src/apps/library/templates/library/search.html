@@ -1,0 +1,23 @@
+<div class="book-gallery" id="changeable">
+    {% for book in books %}
+        <div class="book-item">
+            <img src="{{ book.image.url }}" class="book-image" alt="{{ book.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text">Authors:
+                    {% for author in book.authors.all %}
+                        {{ author.full_name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <p class="card-text">Genres:
+                    {% for genre in book.genre.all %}
+                        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <p class="card-text">Year of Issue: {{ book.year_of_publication }}</p>
+                <a href="{% url 'library:book' book.slug %}" class="btn btn-primary">View Book</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+

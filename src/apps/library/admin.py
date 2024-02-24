@@ -8,6 +8,7 @@ class CountryAdmin(admin.ModelAdmin):
     show_full_result_count = False
 
     list_display = ['name']
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Author)
@@ -24,6 +25,7 @@ class GenreAdmin(admin.ModelAdmin):
     show_full_result_count = False
 
     list_display = ['name']
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Book)
@@ -33,8 +35,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'year_of_publication']
     filter_horizontal = ['authors', 'genre']
     search_fields = ['title']
-
-
+    prepopulated_fields = {"slug": ("title",)}
 
 
 @admin.register(UserBookInstance)

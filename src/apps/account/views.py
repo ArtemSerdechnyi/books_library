@@ -1,8 +1,9 @@
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.utils.functional import SimpleLazyObject
+from django.views.generic import CreateView, ListView, FormView
 
 from .forms import RegistrationForm, LoginUserForm
 
@@ -36,9 +37,16 @@ class Account(ListView):
     model = get_user_model()
     template_name = 'account/account.html'
     context_object_name = 'user'
+    redirect_unauthenticated_user = True
+    redirect_url = reverse_lazy('account:login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        print(context['user'], '-----')
+        user: SimpleLazyObject = self.request.user
+        context['user'] = user
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and self.redirect_unauthenticated_user:
+            return redirect(self.redirect_url)
+        return super().dispatch(request, *args, **kwargs)

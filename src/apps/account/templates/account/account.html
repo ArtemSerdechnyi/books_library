@@ -1,7 +1,18 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-aaaaaaaaa
+<h2>Welcome to your user account page {{ user.username }}</h2>
 
+{% if user.books.all %}
+  <h3>Your Book Instances:</h3>
+  <ul>
+    {% for instance in user.books.all %}
+      <li>{{ instance.book.title }} - {% if instance.is_read %}Read{% else %}Not Read{% endif %}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No book instances found for this user.</p>
+{% endif %}
 
 {% endblock %}
