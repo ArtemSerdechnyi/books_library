@@ -4,16 +4,43 @@
 {% block content %}
     <div class="container mt-4">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search books" name="q"
+            <input type="text" class="form-control" id="search_bar" placeholder="Search books" name="q"
                    hx-get="{% url 'library:library_search' %}"
                    hx-trigger="keyup changed delay:150ms"
                    hx-target="#changeable"
-                   hx-swap="outerHTML">
+                   hx-swap="outerHTML"
+            >
         </div>
+
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <select class="form-select" id="sort-select"
+                        hx-trigger="change"
+                        hx-get="{% url 'library:library_search' %}"
+                        hx-target="#changeable"
+                        hx-swap="outerHTML"
+                >
+                    <option value="latest">Sort by Latest</option>
+                    <option value="title">Sort by Name</option>
+                    <option value="year_of_publication">Sort by Year</option>
+                </select>
+            </div>
+        </div>
+
 
         <div id="changeable">
             {% include 'library/search.html' %}
         </div>
-
     </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.body.addEventListener('htmx:configRequest', function (evt) {
+            evt.detail.parameters['q'] = document.getElementById('search_bar').value;
+            evt.detail.parameters['sorted'] = document.getElementById('sort-select').value;
+        });
+    </script>
 {% endblock %}

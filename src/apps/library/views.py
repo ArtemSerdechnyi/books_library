@@ -28,17 +28,17 @@ class Library(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.prefetch_related('authors', 'genre')
-        # get_query = self.request.GET.get('q')
-        #
-        # if get_query:
-        #     get_query = slugify(get_query.strip())
-        #     multy_q = Q(
-        #         Q(slug__icontains=get_query) |
-        #         Q(authors__slug__icontains=get_query) |
-        #         Q(genre__slug__icontains=get_query) |
-        #         Q(year_of_publication__exact=parse_int_or_none(get_query))
-        #     )
-        #     queryset = queryset.filter(multy_q)
+        get_query = self.request.GET.get('q')
+
+        if get_query:
+            get_query = slugify(get_query.strip())
+            multy_q = Q(
+                Q(slug__icontains=get_query) |
+                Q(authors__slug__icontains=get_query) |
+                Q(genre__slug__icontains=get_query) |
+                Q(year_of_publication__exact=parse_int_or_none(get_query))
+            )
+            queryset = queryset.filter(multy_q)
         return queryset.distinct()
 
 
@@ -58,6 +58,7 @@ class AddBook(FormView):
 
 def library_search_view(request: WSGIRequest):
     get_query = request.GET.get('q')
+    get_sorted = request.GET.get('sorted')
 
     if get_query:
         get_query = slugify(get_query.strip())
@@ -70,6 +71,16 @@ def library_search_view(request: WSGIRequest):
         books = Book.objects.filter(multy_q).distinct()
     else:
         books = Book.objects.all()
+
+    match get_sorted:
+        case 'latest':
+            books = books.order_by('-id')
+        case'title':
+            books = books.order_by('title')
+        case 'year_of_publication':
+            books = books.order_by('year_of_publication')
+        case _:
+            books = books.order_by('id')
 
     books = books.prefetch_related('authors', 'genre')
     return render(request, 'library/search.html', {'books': books})
