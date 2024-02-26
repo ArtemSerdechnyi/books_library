@@ -58,4 +58,4 @@ def library_search_view(request: WSGIRequest):
     queryset = sort_books(queryset, get_sorted)
     queryset = books_dependency_query(queryset)
 
-    return render(request, 'library/search.html', {'books': queryset})
+    return render(request, 'library/book_list.html', {'books': queryset})
