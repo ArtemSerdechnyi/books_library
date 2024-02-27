@@ -1,30 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card mt-5">
-                <div class="card-header">
-                    <h3>{{ book.title }}</h3>
-                </div>
-                <div class="card-body">
-                    <img src="{{ book.image.url }}" class="img-fluid mb-3" alt="{{ book.title }}">
-                    <p><strong>Description:</strong> {{ book.description }}</p>
-                    <p><strong>Authors:</strong>
-                        {% for author in book.authors.all %}
-                            {{ author }}
-                        {% endfor %}
-                    </p>
-                    <p><strong>Genre:</strong>
-                        {% for genre in book.genre.all %}
-                            {{ genre.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p><strong>Year of Publication:</strong> {{ book.year_of_publication }}</p>
-                    <a href="{{ book.file.url }}" class="btn btn-primary">Download</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h3>{{ book.title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ book.image.url }}" class="img-fluid mb-3" alt="{{ book.title }}">
+                        <p><strong>Description:</strong> {{ book.description }}</p>
+                        <p><strong>Authors:</strong>
+                            {% for author in book.authors.all %}
+                                {{ author }}
+                            {% endfor %}
+                        </p>
+                        <p><strong>Genre:</strong>
+                            {% for genre in book.genre.all %}
+                                {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p><strong>Year of Publication:</strong> {{ book.year_of_publication }}</p>
+                        <a href="{{ book.file.url }}" class="btn btn-primary">Download</a>
+                        <a href="{% url 'library:library' %}" class="btn btn-secondary">Back to Library</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
