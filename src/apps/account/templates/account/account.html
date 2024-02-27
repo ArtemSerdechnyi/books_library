@@ -2,17 +2,18 @@
 {% load static %}
 
 {% block content %}
-<h2>Welcome to your user account page {{ user.username }}</h2>
-
-{% if user.books.all %}
-  <h3>Your Book Instances:</h3>
-  <ul>
-    {% for instance in user.books.all %}
-      <li>{{ instance.book.title }} - {% if instance.is_read %}Read{% else %}Not Read{% endif %}</li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No book instances found for this user.</p>
-{% endif %}
-
+    <div class="container">
+        <h2>Welcome to your user account page, {{ user.username }}</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <a href="{% url 'library:library' %}" class="btn btn-primary btn-block">Library</a>
+            </div>
+            <div class="col-md-4">
+                <a href="#" class="btn btn-success btn-block">My Library</a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'library:add_book' %}" class="btn btn-info btn-block">Add Book</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
