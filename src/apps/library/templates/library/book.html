@@ -22,12 +22,22 @@
                         </p>
                         <p><strong>Year of Publication:</strong> {{ book.year_of_publication }}</p>
                         <a href="{{ book.file.url }}" class="btn btn-primary">Download</a>
-                        <form action="{% url 'library:add_book_to_user_library' id=book.id %}" method="post"
-                              style="display: inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="book_id" value={{ book.id }}>
-                            <button type="submit" class="btn btn-success">Add to my library</button>
-                        </form>
+
+                        {% if user_book_instance %}
+                            <form action="#" method="post"
+                                  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="book_id" value="{{ book.id }}">
+                                <button type="submit" class="btn btn-danger">Remove from my library</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'library:add_book_to_user_library' id=book.id %}" method="post"
+                                  style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="book_id" value={{ book.id }}>
+                                <button type="submit" class="btn btn-success">Add to my library</button>
+                            </form>
+                        {% endif %}
                         <a href="{% url 'library:library' %}" class="btn btn-secondary">Back to Library</a>
                     </div>
                 </div>

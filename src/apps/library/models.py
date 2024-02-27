@@ -70,8 +70,8 @@ class Book(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title
 
 
 class UserBookInstance(models.Model):
@@ -79,8 +79,8 @@ class UserBookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='instances')
     is_read = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.book
+    # def __str__(self):
+    #     return self.book
 
     class Meta:
         unique_together = ('user', 'book')

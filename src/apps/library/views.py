@@ -13,8 +13,8 @@ def home_page_view(request: WSGIRequest):
 
 
 def add_book_to_user_library(request: WSGIRequest, id):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        if request.user.is_authenticated:
             book = get_object_or_404(Book, id=id)
             UserBookInstance.objects.create(book=book, user=request.user)
     return render(request, 'library/index.html')
@@ -24,6 +24,19 @@ class BookView(DetailView):
     model = Book
     template_name = 'library/book.html'
     context_object_name = 'book'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if user := self.request.user:
+            book = context.get('book')
+            user_book_instance = UserBookInstance.objects.filter(user=user, book=book).first()
+            context['user_book_instance'] = user_book_instance
+        return context
 
 
 class LibrarySearch(SearchBookMixin, ListView):
