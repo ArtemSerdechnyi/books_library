@@ -2,6 +2,7 @@ from django.db.models import Q, QuerySet
 from django.utils.text import slugify
 
 from src.utils.orm import parse_int_or_none
+from .models import Book
 
 
 def search_books(queryset: QuerySet, query: str | None) -> QuerySet:
@@ -32,3 +33,13 @@ def sort_books(queryset: QuerySet, sort_by) -> QuerySet:
 
 def books_dependency_query(queryset: QuerySet) -> QuerySet:
     return queryset.prefetch_related('authors', 'genre').distinct()
+
+
+class SearchBookMixin:
+    def search_book(self, queryset: Book):
+        get_q = self.request.GET.get('q')
+        get_sorted = self.request.GET.get('sorted')
+        queryset = search_books(queryset, get_q)
+        queryset = sort_books(queryset, get_sorted)
+        queryset = books_dependency_query(queryset)
+        return queryset
