@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseNotFound
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 from django.views.generic import FormView, ListView, DetailView
 
 from .forms import BookForm
@@ -12,12 +14,23 @@ def home_page_view(request: WSGIRequest):
     return render(request, 'library/index.html')
 
 
+@require_POST
 def add_book_to_user_library(request: WSGIRequest, id):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            book = get_object_or_404(Book, id=id)
-            UserBookInstance.objects.create(book=book, user=request.user)
-    return render(request, 'library/index.html')
+    if request.user.is_authenticated:
+        book = get_object_or_404(Book, id=id)
+        UserBookInstance.objects.create(book=book, user=request.user)
+        return redirect('library:book', slug=book.slug)
+    return HttpResponseNotFound()
+
+
+@require_POST
+def remove_book_from_user_library(request: WSGIRequest, id):
+    if request.user.is_authenticated:
+        book = get_object_or_404(Book, id=id)
+        user_book_instance = UserBookInstance.objects.filter(user=request.user, book=book).first()
+        user_book_instance.delete()
+        return redirect('library:book', slug=book.slug)
+    return HttpResponseNotFound()
 
 
 class BookView(DetailView):

@@ -24,7 +24,7 @@
                         <a href="{{ book.file.url }}" class="btn btn-primary">Download</a>
 
                         {% if user_book_instance %}
-                            <form action="#" method="post"
+                            <form action="{% url 'library:remove_book_from_user_library' id=book.id %}" method="post"
                                   style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="book_id" value="{{ book.id }}">

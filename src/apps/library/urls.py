@@ -12,5 +12,6 @@ urlpatterns = [
     path(f'{app_name}/library_search/', views.LibrarySearch.as_view(), name='library_search'),
     path('user_books/', views.UserLibrary.as_view(), name='user_books'),
     path('add_book_to_user_library/<int:id>/', views.add_book_to_user_library, name='add_book_to_user_library'),
-
+    path('remove_book_from_user_library/<int:id>/', views.remove_book_from_user_library,
+         name='remove_book_from_user_library'),
 ]
