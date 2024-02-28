@@ -14,4 +14,5 @@ urlpatterns = [
     path('add_book_to_user_library/<int:id>/', views.add_book_to_user_library, name='add_book_to_user_library'),
     path('remove_book_from_user_library/<int:id>/', views.remove_book_from_user_library,
          name='remove_book_from_user_library'),
+    path('change_book_read_status/<int:id>/', views.change_book_read_status, name='change_book_read_status'),
 ]

@@ -16,4 +16,26 @@
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Ensure images fit inside container without cropping */
     max-height: 200px; /* Limit the height of the images */
+    z-index: 1;
+}
+
+.image-container {
+    position: relative; /* Make sure the position of the checkmark is relative to its parent */
+    display: inline-block; /* Ensure that the container wraps around its content */
+}
+
+.checkmark {
+    position: absolute; /* Position the checkmark absolutely relative to its parent */
+    top: 5px; /* Adjust the top position of the checkmark */
+    right: 5px; /* Adjust the right position of the checkmark */
+    width: 20px; /* Set the width of the checkmark */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 2;
+}
+
+.book-big-image {
+    width: 100%; /* Ensure images take up full width of container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure images fit inside container without cropping */
+    z-index: 1;
 }

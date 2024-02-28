@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView, ListView, DetailView
@@ -27,9 +27,20 @@ def add_book_to_user_library(request: WSGIRequest, id):
 def remove_book_from_user_library(request: WSGIRequest, id):
     if request.user.is_authenticated:
         book = get_object_or_404(Book, id=id)
-        user_book_instance = UserBookInstance.objects.filter(user=request.user, book=book).first()
+        user_book_instance = UserBookInstance.objects.get(user=request.user, book=book)
         user_book_instance.delete()
         return redirect('library:book', slug=book.slug)
+    return HttpResponseNotFound()
+
+
+@require_POST
+def change_book_read_status(request: WSGIRequest, id):
+    if request.user.is_authenticated:
+        book = get_object_or_404(Book, id=id)
+        user_book_instance = get_object_or_404(UserBookInstance, user=request.user, book=book)
+        user_book_instance.is_read = not user_book_instance.is_read
+        user_book_instance.save()
+        return HttpResponse(status=200)
     return HttpResponseNotFound()
 
 
@@ -44,7 +55,6 @@ class BookView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         if user := self.request.user:
             book = context.get('book')
             user_book_instance = UserBookInstance.objects.filter(user=user, book=book).first()
