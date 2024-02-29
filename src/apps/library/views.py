@@ -4,10 +4,11 @@ from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView, ListView, DetailView
+from django.db.models import Case, When, BooleanField
 
 from .forms import BookForm
 from .models import Book, UserBookInstance
-from .utils import SearchBookMixin
+from .utils import SearchBookMixin, annotate_books_with_read_flag
 
 
 def home_page_view(request: WSGIRequest):
@@ -69,6 +70,7 @@ class LibrarySearch(SearchBookMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = annotate_books_with_read_flag(queryset, self.request.user)
         queryset = self.search_book(queryset)
         return queryset
 
@@ -80,9 +82,8 @@ class Library(SearchBookMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = annotate_books_with_read_flag(queryset, self.request.user)
         queryset = self.search_book(queryset)
-        if self.request.user.is_authenticated:
-            user_books = self.request.user.books.all()
         return queryset
 
 

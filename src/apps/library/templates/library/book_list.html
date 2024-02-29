@@ -1,7 +1,16 @@
+{% load static %}
+
 <div class="book-gallery" id="changeable">
     {% for book in books %}
         <div class="book-item">
-            <img src="{{ book.image.url }}" class="book-image" alt="{{ book.title }}">
+            <div class="image-container">
+                <img src="{{ book.image.url }}" class="book-big-image" alt="{{ book.title }}">
+                {% if user.is_authenticated %}
+                    {% if book.read %}
+                        <img src="{% static 'images/checkmark.png' %}" class="checkmark" alt="Checkmark">
+                    {% endif %}
+                {% endif %}
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{ book.title }}</h5>
                 <p class="card-text">Authors:

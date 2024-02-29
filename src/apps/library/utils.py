@@ -1,8 +1,21 @@
 from django.db.models import Q, QuerySet
 from django.utils.text import slugify
+from django.db.models import Case, When, BooleanField
 
 from src.utils.orm import parse_int_or_none
-from .models import Book
+
+
+def annotate_books_with_read_flag(queryset, user) -> QuerySet:
+    if user.is_authenticated:
+        id_read_books = user.books.filter(is_read=True).values_list('book_id', flat=True)
+        queryset = queryset.annotate(
+            read=Case(
+                When(pk__in=id_read_books, then=True),
+                default=False,
+                output_field=BooleanField()
+            )
+        )
+    return queryset
 
 
 def search_books(queryset: QuerySet, query: str | None) -> QuerySet:
@@ -26,6 +39,8 @@ def sort_books(queryset: QuerySet, sort_by) -> QuerySet:
             queryset = queryset.order_by('title')
         case 'year_of_publication':
             queryset = queryset.order_by('year_of_publication')
+        case 'read':
+            queryset = queryset.order_by('-read')
         case _:
             queryset = queryset.order_by('-id')
     return queryset
@@ -36,7 +51,7 @@ def books_dependency_query(queryset: QuerySet) -> QuerySet:
 
 
 class SearchBookMixin:
-    def search_book(self, queryset: Book):
+    def search_book(self, queryset: QuerySet):
         get_q = self.request.GET.get('q')
         get_sorted = self.request.GET.get('sorted')
         queryset = search_books(queryset, get_q)
