@@ -4,14 +4,15 @@
 
 {% block content %}
     <div class="container">
+        <a href="{% url 'library:library' %}" class="btn btn-secondary">Back to Library</a>
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card mt-5">
                     <div class="card-header">
                         <h3>{{ book.title }}</h3>
                     </div>
-
-
                     <div class="card-body">
                         <div class="book-item">
                             <div class="image-container">
@@ -31,36 +32,40 @@
                             {% endfor %}
                         </p>
                         <p><strong>Year of Publication:</strong> {{ book.year_of_publication }}</p>
-                        <p><a href="{{ book.file.url }}" class="btn btn-primary">Download</a></p>
 
-                        <p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value=""
-                                   hx-post="{% url 'library:change_book_read_status' id=book.id %}"
-                                   hx-trigger="change">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Default checkbox
-                            </label>
-                        </div>
-                        </p>
+                        {% if user.is_authenticated %}
+                            {% if user_book_instance %}
+
+                                <p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                            {% if user_book_instance.is_read %} checked {% endif %}
+                                           hx-post="{% url 'library:change_book_read_status' id=book.id %}"
+                                           hx-trigger="change">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        is read?
+                                    </label>
+                                </div>
+                                </p>
 
 
-                        {% if user_book_instance %}
-                            <form action="{% url 'library:remove_book_from_user_library' id=book.id %}" method="post"
-                                  style="display: inline;">
-                                {% csrf_token %}
-                                <input type="hidden" name="book_id" value="{{ book.id }}">
-                                <button type="submit" class="btn btn-danger">Remove from my library</button>
-                            </form>
-                        {% else %}
-                            <form action="{% url 'library:add_book_to_user_library' id=book.id %}" method="post"
-                                  style="display: inline;">
-                                {% csrf_token %}
-                                <input type="hidden" name="book_id" value={{ book.id }}>
-                                <button type="submit" class="btn btn-success">Add to my library</button>
-                            </form>
+                                <form action="{% url 'library:remove_book_from_user_library' id=book.id %}"
+                                      method="post"
+                                      style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                                    <button type="submit" class="btn btn-danger">Remove from my library</button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'library:add_book_to_user_library' id=book.id %}" method="post"
+                                      style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="book_id" value={{ book.id }}>
+                                    <button type="submit" class="btn btn-success">Add to my library</button>
+                                </form>
+                            {% endif %}
+                            <p><a href="{{ book.file.url }}" class="btn btn-primary">Download</a></p>
                         {% endif %}
-                        <a href="{% url 'library:library' %}" class="btn btn-secondary">Back to Library</a>
                     </div>
                 </div>
             </div>
