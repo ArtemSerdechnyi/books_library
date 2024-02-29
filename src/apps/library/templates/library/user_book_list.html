@@ -1,0 +1,29 @@
+{% load static %}
+<div id="changeable">
+    <div class="row">
+        {% if user_books %}
+            {% for instance in user_books %}
+                <div class="col-md-2 mb-3">
+                    <div class="card book-card">
+                        <a href="{% url 'library:book' instance.book.slug %}">
+                            <img src="{{ instance.book.image.url }}" class="card-img-top"
+                                 alt="{{ instance.book.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ instance.book.title }}</h5>
+                                {% if instance.is_read %}
+                                    <p class="card-text text-success">Read</p>
+                                {% else %}
+                                    <p class="card-text text-warning">Unread</p>
+                                {% endif %}
+                            </div>
+                            <a/>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <p>No books found in your library.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>

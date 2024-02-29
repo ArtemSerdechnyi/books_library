@@ -39,3 +39,9 @@
     object-fit: contain;
     z-index: 1;
 }
+
+.book-card img {
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+}

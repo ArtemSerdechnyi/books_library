@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Your Library</h2>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <select class="form-select" id="sort-select"
+                        hx-trigger="change"
+                        hx-get="{% url 'library:user_books_filter' %}"
+                        hx-target="#changeable"
+                        hx-swap="outerHTML"
+                >
+                    <option value="all">All</option>
+                    <option value="read">Read</option>
+                    <option value="unread">Unread</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="changeable">
+            {% include 'library/user_book_list.html' %}
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        document.body.addEventListener('htmx:configRequest', function (evt) {
+            evt.detail.parameters['filter'] = document.getElementById('sort-select').value;
+        });
+    </script>
+{% endblock %}
+

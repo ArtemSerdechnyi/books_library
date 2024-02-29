@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block content %}
+    <div class="container">
+        <a href="{% url 'account:user_account' %}" class="btn btn-secondary">Back to Account</a>
+    </div>
     <div class="container mt-4">
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="search_bar" placeholder="Search books" name="q"
@@ -11,7 +14,6 @@
                    hx-swap="outerHTML"
             >
         </div>
-
 
         <div class="row mb-3">
             <div class="col-md-4">

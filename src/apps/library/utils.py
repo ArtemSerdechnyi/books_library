@@ -50,10 +50,23 @@ def books_dependency_query(queryset: QuerySet) -> QuerySet:
     return queryset.prefetch_related('authors', 'genre').distinct()
 
 
+class UserBookFilterMixin:
+    def user_book_filter(self, queryset: QuerySet) -> QuerySet:
+        queryset = queryset.filter(user=self.request.user)
+        book_filter = self.request.GET.get('filter')
+        match book_filter:
+            case 'read':
+                queryset = queryset.filter(is_read=True)
+            case 'unread':
+                queryset = queryset.filter(is_read=False)
+        return queryset
+
+
 class SearchBookMixin:
     def search_book(self, queryset: QuerySet):
         get_q = self.request.GET.get('q')
         get_sorted = self.request.GET.get('sorted')
+        queryset = annotate_books_with_read_flag(queryset, self.request.user)
         queryset = search_books(queryset, get_q)
         queryset = sort_books(queryset, get_sorted)
         queryset = books_dependency_query(queryset)

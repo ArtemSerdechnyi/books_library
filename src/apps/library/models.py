@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import slugify
 
+
 # from .utils import get_book_path, get_book_image_path
 
 
@@ -23,7 +24,7 @@ class Country(models.Model):
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=150)
-    slug = models.SlugField(unique=True, editable=False,  null=True, blank=True)
+    slug = models.SlugField(unique=True, editable=False, null=True, blank=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
     full_name = models.CharField(max_length=255, editable=False)
 
@@ -70,8 +71,8 @@ class Book(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    # def __str__(self):
-    #     return self.title
+    def __str__(self):
+        return self.title
 
 
 class UserBookInstance(models.Model):
@@ -79,8 +80,8 @@ class UserBookInstance(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='instances')
     is_read = models.BooleanField(default=False)
 
-    # def __str__(self):
-    #     return self.book
+    def __str__(self):
+        return self.book
 
     class Meta:
         unique_together = ('user', 'book')
