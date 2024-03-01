@@ -1,11 +1,17 @@
-from django.contrib.auth import login, get_user_model
+from django.contrib.auth import login, get_user_model, logout
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.functional import SimpleLazyObject
-from django.views.generic import CreateView, ListView, FormView
+from django.views.generic import CreateView, ListView
 
 from .forms import RegistrationForm, LoginUserForm
+
+
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect('library:index')
 
 
 class RegistrationView(CreateView):
