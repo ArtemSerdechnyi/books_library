@@ -2,10 +2,13 @@
 {% load static %}
 
 {% block content %}
+    <div class="container">
+        <a href="{% url 'account:user_account' %}" class="btn btn-secondary">Back to Account</a>
+    </div>
     <div class="container mt-4">
         <h2>Your Library</h2>
         <div class="row mb-3">
-            <div class="col-md-4">
+            <div class="col-md-4"> Filter
                 <select class="form-select" id="sort-select"
                         hx-trigger="change"
                         hx-get="{% url 'library:user_books_filter' %}"

@@ -2,12 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import FormView, ListView, DetailView
 
 from .forms import BookForm
 from .models import Book, UserBookInstance
-from .utils import SearchBookMixin, annotate_books_with_read_flag, UserBookFilterMixin
+from .utils import SearchBookMixin, UserBookFilterMixin
 
 
 def home_page_view(request: WSGIRequest):
@@ -111,11 +112,9 @@ class UserLibraryFilter(LoginRequiredMixin, UserBookFilterMixin, ListView):
 class AddBook(FormView):
     template_name = 'library/add_book.html'
     form_class = BookForm
-    success_url = '/'
+    success_url = reverse_lazy('account:user_account')
 
     def form_valid(self, form):
-        authors = form.cleaned_data['authors']
-        for author in authors:
-            if not author.pk:
-                author.save()
+        form.save()
         return super().form_valid(form)
+
