@@ -63,17 +63,6 @@ class BookView(DetailView):
         return context
 
 
-class LibrarySearch(SearchBookMixin, ListView):
-    model = Book
-    template_name = 'library/book_list.html'
-    context_object_name = 'books'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = self.search_book(queryset)
-        return queryset
-
-
 class Library(SearchBookMixin, ListView):
     model = Book
     template_name = 'library/library.html'
@@ -83,6 +72,10 @@ class Library(SearchBookMixin, ListView):
         queryset = super().get_queryset()
         queryset = self.search_book(queryset)
         return queryset
+
+
+class LibrarySearch(Library):
+    template_name = 'library/book_list.html'
 
 
 class UserLibrary(LoginRequiredMixin, UserBookFilterMixin, ListView):
@@ -97,19 +90,11 @@ class UserLibrary(LoginRequiredMixin, UserBookFilterMixin, ListView):
         return queryset
 
 
-class UserLibraryFilter(LoginRequiredMixin, UserBookFilterMixin, ListView):
-    model = UserBookInstance
+class UserLibraryFilter(UserLibrary):
     template_name = 'library/user_book_list.html'
-    context_object_name = 'user_books'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.select_related('book')
-        queryset = self.user_book_filter(queryset)
-        return queryset
 
 
-class AddBook(FormView):
+class AddBook(LoginRequiredMixin, FormView):
     template_name = 'library/add_book.html'
     form_class = BookForm
     success_url = reverse_lazy('account:user_account')
@@ -117,4 +102,3 @@ class AddBook(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-

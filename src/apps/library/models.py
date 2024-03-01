@@ -5,9 +5,6 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 
-# from .utils import get_book_path, get_book_image_path
-
-
 class Country(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
