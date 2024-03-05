@@ -1,8 +1,9 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.utils import timezone
 from django.utils.text import slugify
+
+from utils.utils import get_minimal_book_year, get_maximal_book_year
 
 
 class Country(models.Model):
@@ -57,7 +58,7 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author, related_name='books')
     genre = models.ManyToManyField(Genre, related_name='books')
     year_of_publication = models.IntegerField(
-        validators=[MinValueValidator(-1000), MaxValueValidator(timezone.now().year)],
+        validators=[MinValueValidator(get_minimal_book_year()), MaxValueValidator(get_maximal_book_year())],
     )
     file = models.FileField(upload_to='book_files')
     added_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True,

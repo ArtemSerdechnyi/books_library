@@ -2,7 +2,7 @@ from django.db.models import Q, QuerySet
 from django.utils.text import slugify
 from django.db.models import Case, When, BooleanField
 
-from src.utils.orm import parse_int_or_none
+from utils.orm import parse_int_or_none
 
 
 def annotate_books_with_read_flag(queryset, user) -> QuerySet:

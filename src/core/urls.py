@@ -10,6 +10,7 @@ urlpatterns = [
     # site paths
     path('account/', include('apps.account.urls', namespace='account')),
     path('', include('apps.library.urls', namespace='library')),
+    path('statistic/', include('apps.statistic.urls', namespace='statistic')),
 ]
 
 if settings.DEBUG:

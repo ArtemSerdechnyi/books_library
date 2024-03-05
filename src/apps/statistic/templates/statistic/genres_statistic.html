@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="changeable">
+        <form id="filter_form"
+              hx-get="{% url 'statistic:fig_genres_statistic' %}"
+              hx-target="#fig-changeable"
+              hx-swap="outerHTML"
+        >
+            <label for="start_date">Start Year:</label>
+            <input type="number" id="start_year" name="start_year" min="-1000" max="2024"
+                   placeholder="YYYY" required>
+            <label for="end_date">End Year:</label>
+            <input type="number" id="end_year" name="end_year" min="-1000" max="2024" placeholder="YYYY"
+                   required>
+            <input type="submit" value="Filter" hx-disable>
+        </form>
+
+        <div id="changeable">
+            {% include 'statistic/fig_genres_statistic.html' %}
+        </div>
+    </div>
+
+{% endblock %}

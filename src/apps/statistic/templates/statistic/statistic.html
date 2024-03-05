@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-lg btn-block"
+                        hx-trigger="click"
+                        hx-get="{% url 'statistic:genres_statistic' %}"
+                        hx-target="#changeable"
+                        hx-swap="outerHTML"
+
+                >Genres
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-lg btn-block"
+                >Authors
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-lg btn-block"
+                >Books read
+                </button>
+
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary btn-lg btn-block"
+                >General
+                </button>
+            </div>
+
+            <div id="changeable">
+                {#                {% include 'library/book_list.html' %}#}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

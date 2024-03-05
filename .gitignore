@@ -161,3 +161,4 @@ cython_debug/
 /src/apps/account/migrations/
 /src/apps/library/migrations/
 /src/media/
+/src/apps/statistic/migrations/

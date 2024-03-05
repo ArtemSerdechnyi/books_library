@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     'apps.account',
     'apps.library',
+    'apps.statistic',
 ]
 
 MIDDLEWARE = [
