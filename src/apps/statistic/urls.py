@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.home_page_view, name='index'),
     path('genres_statistic/', views.genres_statistic_view, name='genres_statistic'),
     path('fig_genres_statistic/', views.fig_genres_statistic_view, name='fig_genres_statistic'),
+    path('authors_statistic/', views.authors_statistic_view, name='authors_statistic'),
 ]

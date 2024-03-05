@@ -9,12 +9,15 @@
                         hx-get="{% url 'statistic:genres_statistic' %}"
                         hx-target="#changeable"
                         hx-swap="outerHTML"
-
                 >Genres
                 </button>
             </div>
             <div class="col-md-3">
                 <button class="btn btn-primary btn-lg btn-block"
+                        hx-trigger="click"
+                        hx-get="{% url 'statistic:authors_statistic' %}"
+                        hx-target="#changeable"
+                        hx-swap="outerHTML"
                 >Authors
                 </button>
             </div>

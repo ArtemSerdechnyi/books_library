@@ -1,14 +1,14 @@
 import plotly.express as px
 
 from django.db.models import Q, Count
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
-from apps.library.models import Genre
+from apps.library.models import Genre, Author
 from utils.utils import get_minimal_book_year, get_maximal_book_year
 
 
-def get_years(request: HttpRequest) -> (int, int):
+def get_years_from_request(request: HttpRequest) -> (int, int):
     start_year_str = request.GET.get('start_year')
     end_year_str = request.GET.get('end_year')
 
@@ -36,13 +36,24 @@ def get_genre_statistics(book_filter: Q) -> dict[str, int]:
     return {item['name']: item['book_count'] for item in genre_counts}
 
 
-def render_genre_statistic_view(request: HttpRequest, template_name: str) -> render:
-    start_year, end_year = get_years(request)
+def render_genre_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    start_year, end_year = get_years_from_request(request)
     book_filter = filter_books_by_year(start_year, end_year)
     genre_count_dict = get_genre_statistics(book_filter)
 
     fig = px.pie(names=list(genre_count_dict.keys()), values=list(genre_count_dict.values()))
     fig.update_layout(title='Genre statistic')
+    plotly_html = fig.to_html()
+    context = {'fig': plotly_html}
+    return render(request, template_name, context)
+
+
+def render_author_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    authors_with_books_count = Author.objects.annotate(
+        book_count=Count('books')
+    ).values('full_name', 'book_count').order_by('-book_count')
+    author_count_dict = {item['full_name']: item['book_count'] for item in authors_with_books_count}
+    fig = px.pie(names=list(author_count_dict.keys()), values=list(author_count_dict.values()))
     plotly_html = fig.to_html()
     context = {'fig': plotly_html}
     return render(request, template_name, context)

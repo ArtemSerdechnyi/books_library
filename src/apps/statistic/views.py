@@ -6,7 +6,7 @@ from django.db.models import Count, Q
 
 import plotly.express as px
 
-from .utils import render_genre_statistic_view
+from .utils import render_genre_statistic_view, render_author_statistic_view
 
 
 def home_page_view(request: WSGIRequest):
@@ -19,3 +19,9 @@ def genres_statistic_view(request: WSGIRequest):
 
 def fig_genres_statistic_view(request: WSGIRequest):
     return render_genre_statistic_view(request, 'statistic/fig_genres_statistic.html')
+
+
+def authors_statistic_view(request: WSGIRequest):
+    return render_author_statistic_view(request, 'statistic/authors_statistic.html')
+
+
