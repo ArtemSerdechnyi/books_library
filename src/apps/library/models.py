@@ -79,7 +79,7 @@ class UserBookInstance(models.Model):
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.book
+        return self.book.title
 
     class Meta:
         unique_together = ('user', 'book')
