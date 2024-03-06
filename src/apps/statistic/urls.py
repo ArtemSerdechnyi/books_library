@@ -9,4 +9,5 @@ urlpatterns = [
     path('genres_statistic/', views.genres_statistic_view, name='genres_statistic'),
     path('fig_genres_statistic/', views.fig_genres_statistic_view, name='fig_genres_statistic'),
     path('authors_statistic/', views.authors_statistic_view, name='authors_statistic'),
+    path('books_read_statistic/', views.books_read_statistics_view, name='books_read_statistic'),
 ]

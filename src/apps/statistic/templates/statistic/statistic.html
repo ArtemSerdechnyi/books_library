@@ -23,6 +23,10 @@
             </div>
             <div class="col-md-3">
                 <button class="btn btn-primary btn-lg btn-block"
+                        hx-trigger="click"
+                        hx-get="{% url 'statistic:books_read_statistic' %}"
+                        hx-target="#changeable"
+                        hx-swap="outerHTML"
                 >Books read
                 </button>
 

@@ -4,7 +4,7 @@ from django.db.models import Q, Count
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
-from apps.library.models import Genre, Author
+from apps.library.models import Genre, Author, Book, UserBookInstance
 from utils.utils import get_minimal_book_year, get_maximal_book_year
 
 
@@ -54,6 +54,22 @@ def render_author_statistic_view(request: HttpRequest, template_name: str) -> Ht
     ).values('full_name', 'book_count').order_by('-book_count')
     author_count_dict = {item['full_name']: item['book_count'] for item in authors_with_books_count}
     fig = px.pie(names=list(author_count_dict.keys()), values=list(author_count_dict.values()))
+    plotly_html = fig.to_html()
+    context = {'fig': plotly_html}
+    return render(request, template_name, context)
+
+
+def render_read_book_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    user = request.user
+    user_book_instances = UserBookInstance.objects.filter(user=user)
+    book_instances_count = user_book_instances.count()
+    read_book_instances_count = user_book_instances.filter(is_read=True).count()
+    total_books = Book.objects.count()
+
+    data = {'Status': ['Total Books', 'Books in my library', 'Read Books'],
+            'Count': [total_books, book_instances_count, read_book_instances_count]}
+
+    fig = px.bar(data, x='Count', y='Status', orientation='h')
     plotly_html = fig.to_html()
     context = {'fig': plotly_html}
     return render(request, template_name, context)
