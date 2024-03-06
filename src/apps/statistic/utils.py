@@ -46,7 +46,11 @@ def render_genre_statistic_view(request: HttpRequest, template_name: str) -> Htt
     fig = px.pie(names=list(genre_count_dict.keys()), values=list(genre_count_dict.values()))
     fig.update_layout(title='Genre statistic')
     plotly_html = fig.to_html()
-    context = {'fig': plotly_html}
+    context = {
+        'fig': plotly_html,
+        'max_year': get_maximal_book_year(),
+        'min_year': get_minimal_book_year(),
+    }
     return render(request, template_name, context)
 
 

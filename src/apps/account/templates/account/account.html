@@ -5,14 +5,17 @@
     <div class="container">
         <h2>Welcome to your user account page, {{ user.username }}</h2>
         <div class="row mt-4">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{% url 'library:library' %}" class="btn btn-primary btn-block">Library</a>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{% url 'library:user_books' %}" class="btn btn-success btn-block">My Library</a>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a href="{% url 'library:add_book' %}" class="btn btn-info btn-block">Add Book</a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url 'statistic:statistic' %}" class="btn btn-info btn-block">Statistic</a>
             </div>
         </div>
     </div>

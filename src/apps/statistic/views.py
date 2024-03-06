@@ -11,7 +11,7 @@ from .utils import (
 
 
 @login_required
-def home_page_view(request: WSGIRequest):
+def statistic_page_view(request: WSGIRequest):
     return render(request, 'statistic/statistic.html')
 
 
