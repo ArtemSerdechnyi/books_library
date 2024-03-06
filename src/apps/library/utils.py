@@ -1,8 +1,18 @@
 from django.db.models import Q, QuerySet
+from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 from django.db.models import Case, When, BooleanField
 
+from apps.library.models import UserBookInstance
 from utils.orm import parse_int_or_none
+
+
+def create_book_instance(book, user) -> None:
+    UserBookInstance.objects.create(book=book, user=user)
+
+
+def get_book_instance(book, user) -> UserBookInstance:
+    return get_object_or_404(UserBookInstance, user=user, book=book)
 
 
 def annotate_books_with_read_flag(queryset, user) -> QuerySet:

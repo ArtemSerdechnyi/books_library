@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
@@ -8,7 +9,11 @@ from django.views.generic import FormView, ListView, DetailView
 
 from .forms import BookForm
 from .models import Book, UserBookInstance
-from .utils import SearchBookMixin, UserBookFilterMixin
+from .utils import (
+    SearchBookMixin,
+    UserBookFilterMixin,
+    create_book_instance, get_book_instance,
+)
 
 
 def home_page_view(request: WSGIRequest):
@@ -16,33 +21,30 @@ def home_page_view(request: WSGIRequest):
 
 
 @require_POST
+@login_required
 def add_book_to_user_library(request: WSGIRequest, id):
-    if request.user.is_authenticated:
-        book = get_object_or_404(Book, id=id)
-        UserBookInstance.objects.create(book=book, user=request.user)
-        return redirect('library:book', slug=book.slug)
-    return HttpResponseNotFound()
+    book = get_object_or_404(Book, id=id)
+    create_book_instance(book, request.user)
+    return redirect('library:book', slug=book.slug)
 
 
 @require_POST
+@login_required
 def remove_book_from_user_library(request: WSGIRequest, id):
-    if request.user.is_authenticated:
-        book = get_object_or_404(Book, id=id)
-        user_book_instance = UserBookInstance.objects.get(user=request.user, book=book)
-        user_book_instance.delete()
-        return redirect('library:book', slug=book.slug)
-    return HttpResponseNotFound()
+    book = get_object_or_404(Book, id=id)
+    user_book_instance = get_book_instance(book, request.user)
+    user_book_instance.delete()
+    return redirect('library:book', slug=book.slug)
 
 
 @require_POST
+@login_required
 def change_book_read_status(request: WSGIRequest, id):
-    if request.user.is_authenticated:
-        book = get_object_or_404(Book, id=id)
-        user_book_instance = get_object_or_404(UserBookInstance, user=request.user, book=book)
-        user_book_instance.is_read = not user_book_instance.is_read
-        user_book_instance.save()
-        return HttpResponse(status=200)
-    return HttpResponseNotFound()
+    book = get_object_or_404(Book, id=id)
+    user_book_instance = get_book_instance(book, request.user)
+    user_book_instance.is_read = not user_book_instance.is_read
+    user_book_instance.save()
+    return HttpResponse(status=200)
 
 
 class BookView(DetailView):
