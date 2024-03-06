@@ -1,0 +1,29 @@
+<div id="changeable" class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <h2>Total Number of Books: {{ total_books }}</h2>
+            <h2>Average Age of Books: {{ average_age }}</h2>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <h3>Most Popular Is_Read Genres:</h3>
+            {{ plot_div_genre|safe }}
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <h3>Most Popular Is_Read Authors:</h3>
+            {{ plot_div_author|safe }}
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <h3>Most Read Books:</h3>
+            {{ plot_div_books|safe }}
+        </div>
+    </div>
+</div>

@@ -33,12 +33,16 @@
             </div>
             <div class="col-md-3">
                 <button class="btn btn-primary btn-lg btn-block"
+                        hx-trigger="click"
+                        hx-get="{% url 'statistic:general_statistics' %}"
+                        hx-target="#changeable"
+                        hx-swap="outerHTML"
                 >General
                 </button>
             </div>
 
             <div id="changeable">
-                {#                {% include 'library/book_list.html' %}#}
+
             </div>
 
         </div>

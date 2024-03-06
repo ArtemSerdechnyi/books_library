@@ -1,15 +1,13 @@
-from datetime import datetime
-
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render
-from django.db.models import Count, Q
 
-import plotly.express as px
-
-from .utils import render_genre_statistic_view, render_author_statistic_view, render_read_book_statistic_view
-from ..library.models import Book, UserBookInstance
+from .utils import (
+    render_genre_statistic_view,
+    render_author_statistic_view,
+    render_read_book_statistic_view,
+    render_general_statistic_view,
+)
 
 
 @login_required
@@ -35,3 +33,8 @@ def authors_statistic_view(request: WSGIRequest):
 @login_required
 def books_read_statistics_view(request: WSGIRequest):
     return render_read_book_statistic_view(request, 'statistic/books_read_statistic.html')
+
+
+@login_required
+def general_statistics_view(request):
+    return render_general_statistic_view(request, 'statistic/general_statistics.html')
