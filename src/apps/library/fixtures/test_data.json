@@ -1,0 +1,82 @@
+{
+  "countries": [
+    {
+      "name": "Country 1",
+      "slug": "country-1"
+    },
+    {
+      "name": "Country 2",
+      "slug": "country-2"
+    }
+  ],
+  "authors": [
+    {
+      "first_name": "Author",
+      "last_name": "One",
+      "slug": "author-one",
+      "country": 1,
+      "full_name": "Author One"
+    },
+    {
+      "first_name": "Author",
+      "last_name": "Two",
+      "slug": "author-two",
+      "country": 2,
+      "full_name": "Author Two"
+    }
+  ],
+  "genres": [
+    {
+      "name": "Genre 1",
+      "slug": "genre-1"
+    },
+    {
+      "name": "Genre 2",
+      "slug": "genre-2"
+    }
+  ],
+  "books": [
+    {
+      "title": "Book 1",
+      "slug": "book-1",
+      "image": "book_images/book1.jpg",
+      "description": "Description for Book 1",
+      "authors": [
+        1
+      ],
+      "genre": [
+        1
+      ],
+      "year_of_publication": 2020,
+      "file": "book_files/book1.pdf",
+      "added_by": null
+    },
+    {
+      "title": "Book 2",
+      "slug": "book-2",
+      "image": "book_images/book2.jpg",
+      "description": "Description for Book 2",
+      "authors": [
+        2
+      ],
+      "genre": [
+        2
+      ],
+      "year_of_publication": 2021,
+      "file": "book_files/book2.pdf",
+      "added_by": null
+    }
+  ],
+  "user_book_instances": [
+    {
+      "user": 1,
+      "book": 1,
+      "is_read": false
+    },
+    {
+      "user": 2,
+      "book": 2,
+      "is_read": true
+    }
+  ]
+}
