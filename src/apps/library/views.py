@@ -9,7 +9,7 @@ from django.views.generic import FormView, ListView, DetailView
 
 from .forms import BookForm
 from .models import Book, UserBookInstance
-from .utils import (
+from .utils.views_utils import (
     SearchBookMixin,
     UserBookFilterMixin,
     create_book_instance, get_book_instance,

@@ -1,10 +1,9 @@
-from django.db.models import Q, QuerySet
+from django.db.models import QuerySet, Case, When, BooleanField, Q
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
-from django.db.models import Case, When, BooleanField
 
-from apps.library.models import UserBookInstance
 from utils.orm import parse_int_or_none
+from ..models import UserBookInstance
 
 
 def create_book_instance(book, user) -> None:

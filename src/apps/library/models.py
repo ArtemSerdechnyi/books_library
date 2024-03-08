@@ -1,9 +1,11 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, FileExtensionValidator
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 
 from utils.utils import get_minimal_book_year, get_maximal_book_year
+from .utils.models_utils import get_accepted_book_extensions, validate_book_size, get_accepted_image_extensions, \
+    validate_image_size
 
 
 class Country(models.Model):
@@ -53,14 +55,16 @@ class Genre(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    image = models.ImageField(upload_to='book_images', default='default_book_image.jpg')
+    image = models.ImageField(upload_to='book_images', default='default_book_image.jpg',
+                              validators=[FileExtensionValidator(get_accepted_image_extensions()), validate_image_size])
     description = models.TextField(null=True, blank=True)
     authors = models.ManyToManyField(Author, related_name='books')
     genre = models.ManyToManyField(Genre, related_name='books')
     year_of_publication = models.IntegerField(
         validators=[MinValueValidator(get_minimal_book_year()), MaxValueValidator(get_maximal_book_year())],
     )
-    file = models.FileField(upload_to='book_files')
+    file = models.FileField(upload_to='book_files',
+                            validators=[FileExtensionValidator(get_accepted_book_extensions()), validate_book_size])
     added_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name='added_books')
 
