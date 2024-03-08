@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render
 
+from .forms import YearFilterForm
 from .utils import (
     render_genre_statistic_view,
     render_author_statistic_view,

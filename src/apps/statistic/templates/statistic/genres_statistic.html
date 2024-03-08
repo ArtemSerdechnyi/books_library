@@ -7,13 +7,11 @@
               hx-target="#fig-changeable"
               hx-swap="outerHTML"
         >
-            <label for="start_date">Start Year:</label>
-            <input type="number" id="start_year" name="start_year" min={{ min_year }} max={{ max_year }}
-                   placeholder="YYYY" required>
-            <label for="end_date">End Year:</label>
-            <input type="number" id="end_year" name="end_year" min={{ min_year }}  max={{ max_year }}
-                   placeholder="YYYY" required>
+            <p></p>
+            <p>{{ form }}
             <input type="submit" value="Filter" hx-disable>
+            </p>
+
         </form>
 
         <div id="fig-changeable">
