@@ -1,82 +1,72 @@
-{
-  "countries": [
-    {
-      "name": "Country 1",
-      "slug": "country-1"
-    },
-    {
-      "name": "Country 2",
-      "slug": "country-2"
+[
+  {
+    "model": "library.country",
+    "pk": 1,
+    "fields": {
+      "name": "Country Name 1",
+      "slug": "country-name-1"
     }
-  ],
-  "authors": [
-    {
-      "first_name": "Author",
-      "last_name": "One",
-      "slug": "author-one",
+  },
+  {
+    "model": "library.author",
+    "pk": 1,
+    "fields": {
+      "first_name": "Author First Name 1",
+      "last_name": "Author Last Name 1",
       "country": 1,
-      "full_name": "Author One"
-    },
-    {
-      "first_name": "Author",
-      "last_name": "Two",
-      "slug": "author-two",
-      "country": 2,
-      "full_name": "Author Two"
+      "full_name": "Author First Name 1 Author Last Name 1",
+      "slug": "author-first-name-1-author-last-name-1"
     }
-  ],
-  "genres": [
-    {
-      "name": "Genre 1",
-      "slug": "genre-1"
-    },
-    {
-      "name": "Genre 2",
-      "slug": "genre-2"
+  },
+  {
+    "model": "library.author",
+    "pk": 2,
+    "fields": {
+      "first_name": "Author First Name 2",
+      "last_name": "Author Last Name 2",
+      "country": 1,
+      "full_name": "Author First Name 2 Author Last Name 2",
+      "slug": "author-first-name-2-author-last-name-2"
     }
-  ],
-  "books": [
-    {
-      "title": "Book 1",
-      "slug": "book-1",
-      "image": "book_images/book1.jpg",
-      "description": "Description for Book 1",
-      "authors": [
-        1
-      ],
-      "genre": [
-        1
-      ],
-      "year_of_publication": 2020,
-      "file": "book_files/book1.pdf",
-      "added_by": null
-    },
-    {
-      "title": "Book 2",
-      "slug": "book-2",
-      "image": "book_images/book2.jpg",
-      "description": "Description for Book 2",
-      "authors": [
-        2
-      ],
-      "genre": [
-        2
-      ],
-      "year_of_publication": 2021,
-      "file": "book_files/book2.pdf",
-      "added_by": null
+  },
+  {
+    "model": "library.genre",
+    "pk": 1,
+    "fields": {
+      "name": "Genre Name 1",
+      "slug": "genre-name-1"
     }
-  ],
-  "user_book_instances": [
-    {
+  },
+  {
+    "model": "library.genre",
+    "pk": 2,
+    "fields": {
+      "name": "Genre Name 2",
+      "slug": "genre-name-2"
+    }
+  },
+  {
+    "model": "library.book",
+    "pk": 1,
+    "fields": {
+      "title": "Book Title 1",
+      "slug": "book-title-1",
+      "description": "Description for Book Title 1",
+      "year_of_publication": 2022,
+      "added_by": 1,
+      "image": "book_images/default_book_image.jpg",
+      "file": "book_files/book_file_1.pdf",
+      "authors": [1, 2],
+      "genre": [1, 2]
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 1,
+    "fields": {
       "user": 1,
       "book": 1,
       "is_read": false
-    },
-    {
-      "user": 2,
-      "book": 2,
-      "is_read": true
     }
-  ]
-}
+  }
+]

@@ -90,5 +90,9 @@ class UserBookInstance(models.Model):
     def __str__(self):
         return self.book.title
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     class Meta:
         unique_together = ('user', 'book')

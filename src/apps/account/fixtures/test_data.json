@@ -1,0 +1,10 @@
+[
+  {
+    "model": "account.customuser",
+    "pk": 1,
+    "fields": {
+      "username": "testuser",
+      "password": "test"
+    }
+  }
+]
