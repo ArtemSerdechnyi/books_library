@@ -4,12 +4,17 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 
 from utils.utils import get_minimal_book_year, get_maximal_book_year
-from .utils.models_utils import get_accepted_book_extensions, validate_book_size, get_accepted_image_extensions, \
-    validate_image_size
+from .utils.models_utils import (
+    get_accepted_book_extensions,
+    validate_book_size,
+    get_accepted_image_extensions,
+    validate_image_size,
+    FullCleanBeforeSaveMixin
+)
 
 
-class Country(models.Model):
-    name = models.CharField(max_length=255)
+class Country(FullCleanBeforeSaveMixin, models.Model):
+    name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
@@ -21,7 +26,7 @@ class Country(models.Model):
         return self.name
 
 
-class Author(models.Model):
+class Author(FullCleanBeforeSaveMixin, models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, editable=False, null=True, blank=True)
@@ -39,8 +44,8 @@ class Author(models.Model):
         return self.full_name
 
 
-class Genre(models.Model):
-    name = models.CharField(max_length=255)
+class Genre(FullCleanBeforeSaveMixin, models.Model):
+    name = models.CharField(max_length=40)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
@@ -52,7 +57,7 @@ class Genre(models.Model):
         return self.name
 
 
-class Book(models.Model):
+class Book(FullCleanBeforeSaveMixin, models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='book_images', default='default_book_image.jpg',
@@ -72,27 +77,19 @@ class Book(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
 
-        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
 
-    class Meta:
-        ...
 
-
-class UserBookInstance(models.Model):
+class UserBookInstance(FullCleanBeforeSaveMixin, models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='books')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='instances')
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.book.title
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super().save(*args, **kwargs)
 
     class Meta:
         unique_together = ('user', 'book')

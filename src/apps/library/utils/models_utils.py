@@ -25,3 +25,9 @@ def get_accepted_book_extensions():
 def validate_book_size(file):
     max_size = 30
     validate_file_size(max_size, file)
+
+
+class FullCleanBeforeSaveMixin:
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
