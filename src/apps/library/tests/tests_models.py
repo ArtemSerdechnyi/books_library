@@ -1,56 +1,54 @@
-from io import BytesIO
-
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.test import TestCase
 
 from apps.library.models import Country, Author, Genre, Book, UserBookInstance
+from utils.tests.utils import get_mock_file, create_book
 
 
 class ModelTestCase(TestCase):
     fixtures = ['test_data.json']
 
-    @staticmethod
-    def get_mock_file(
-            name,
-            size_in_mb,
-    ) -> InMemoryUploadedFile:
-        full_size = size_in_mb * 1024 * 1024
-        return InMemoryUploadedFile(
-            file=BytesIO(b'test content'),
-            field_name=None,
-            name=name,
-            content_type='text/plain',
-            size=full_size,
-            charset=None,
-            content_type_extra=None,
-        )
-
-    @staticmethod
-    def create_book(
-            title='New Book Title',
-            year_of_publication=2000,
-            file=get_mock_file('new_book_file.txt', 10),
-            added_by=None,
-            **kwargs,
-    ) -> None:
-        book_data = {
-            'title': title,
-            'year_of_publication': year_of_publication,
-            'file': file,
-            'added_by': added_by,
-        }
-
-        if kwargs:
-            book_data.update(kwargs)
-
-        test_book = Book(**book_data)
-        test_book.save()
-        test_book.genre.set([Genre.objects.get(name='Genre Name 1'),
-                             Genre.objects.get(name='Genre Name 2')])
-        test_book.authors.set([Author.objects.get(first_name='Author First Name 1'),
-                               Author.objects.get(first_name='Author First Name 2')])
+    # @staticmethod
+    # def get_mock_file(
+    #         name,
+    #         size_in_mb,
+    # ) -> InMemoryUploadedFile:
+    #     full_size = size_in_mb * 1024 * 1024
+    #     return InMemoryUploadedFile(
+    #         file=BytesIO(b'test content'),
+    #         field_name=None,
+    #         name=name,
+    #         content_type='text/plain',
+    #         size=full_size,
+    #         charset=None,
+    #         content_type_extra=None,
+    #     )
+    #
+    # @staticmethod
+    # def create_book(
+    #         title='New Book Title',
+    #         year_of_publication=2000,
+    #         file=get_mock_file('new_book_file.txt', 10),
+    #         added_by=None,
+    #         **kwargs,
+    # ) -> None:
+    #     book_data = {
+    #         'title': title,
+    #         'year_of_publication': year_of_publication,
+    #         'file': file,
+    #         'added_by': added_by,
+    #     }
+    #
+    #     if kwargs:
+    #         book_data.update(kwargs)
+    #
+    #     test_book = Book(**book_data)
+    #     test_book.save()
+    #     test_book.genre.set([Genre.objects.get(name='Genre Name 1'),
+    #                          Genre.objects.get(name='Genre Name 2')])
+    #     test_book.authors.set([Author.objects.get(first_name='Author First Name 1'),
+    #                            Author.objects.get(first_name='Author First Name 2')])
 
     def test_country_model(self):
         country = Country.objects.create(name='New Country')
@@ -92,7 +90,7 @@ class ModelTestCase(TestCase):
         self.assertEqual(genre.slug, 'genre-name-1')
 
     def test_book_model(self):
-        self.create_book(year_of_publication=0)
+        create_book(year_of_publication=0)
         book = Book.objects.get(title='New Book Title')
         self.assertEqual(book.title, 'New Book Title')
         self.assertEqual(book.slug, 'new-book-title')
@@ -114,25 +112,25 @@ class ModelTestCase(TestCase):
 
     def test_invalid_book_model(self):
         with self.assertRaises(ValidationError):
-            self.create_book(title='Unique test book')
-            self.create_book(title='Unique test book')
+            create_book(title='Unique test book')
+            create_book(title='Unique test book')
 
         with self.assertRaises(ValidationError):
-            self.create_book(title='Min year error', year_of_publication=-1001)
+            create_book(title='Min year error', year_of_publication=-1001)
 
         with self.assertRaises(ValidationError):
-            self.create_book(title='Max year error', year_of_publication=timezone.now().year + 1)
+            create_book(title='Max year error', year_of_publication=timezone.now().year + 1)
 
         with self.assertRaises(ValidationError):
-            self.create_book(title='Max book file size error',
-                             file=self.get_mock_file('max_size_error.txt', 31))
+            create_book(title='Max book file size error',
+                        file=get_mock_file('max_size_error.txt', 31))
 
         with self.assertRaises(ValidationError):
-            self.create_book(title='Max book image size error',
-                             image=self.get_mock_file('max_size_error.jpg', 6))
+            create_book(title='Max book image size error',
+                        image=get_mock_file('max_size_error.jpg', 6))
 
     def test_user_book_instance_model(self):
-        self.create_book(title='New Book')
+        create_book(title='New Book')
         book = Book.objects.get(title='New Book')
         instance = UserBookInstance.objects.create(user_id=1, book=book, is_read=True)
         self.assertEqual(instance.user_id, 1)
