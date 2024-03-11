@@ -1,4 +1,6 @@
+from django.core.exceptions import BadRequest
 from django.db.models import QuerySet, Case, When, BooleanField, Q
+from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 
@@ -75,6 +77,9 @@ class SearchBookMixin:
     def search_book(self, queryset: QuerySet):
         get_q = self.request.GET.get('q')
         get_sorted = self.request.GET.get('sorted')
+        if get_sorted == 'read' and not self.request.user.is_authenticated:
+            raise BadRequest("Authentication required")
+
         queryset = annotate_books_with_read_flag(queryset, self.request.user)
         queryset = search_books(queryset, get_q)
         queryset = sort_books(queryset, get_sorted)
