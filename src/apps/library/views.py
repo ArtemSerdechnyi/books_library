@@ -52,13 +52,10 @@ class BookView(DetailView):
     template_name = 'library/book.html'
     context_object_name = 'book'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if user := self.request.user:
+        user = self.request.user
+        if user.is_authenticated:
             book = context.get('book')
             user_book_instance = UserBookInstance.objects.filter(user=user, book=book).first()
             context['user_book_instance'] = user_book_instance
