@@ -22,7 +22,7 @@ def home_page_view(request: WSGIRequest):
 
 @require_POST
 @login_required
-def add_book_to_user_library(request: WSGIRequest, id):
+def add_book_to_user_library_view(request: WSGIRequest, id):
     book = get_object_or_404(Book, id=id)
     create_book_instance(book, request.user)
     return redirect('library:book', slug=book.slug)
@@ -30,7 +30,7 @@ def add_book_to_user_library(request: WSGIRequest, id):
 
 @require_POST
 @login_required
-def remove_book_from_user_library(request: WSGIRequest, id):
+def remove_book_from_user_library_view(request: WSGIRequest, id):
     book = get_object_or_404(Book, id=id)
     user_book_instance = get_book_instance(book, request.user)
     user_book_instance.delete()
@@ -39,7 +39,10 @@ def remove_book_from_user_library(request: WSGIRequest, id):
 
 @require_POST
 @login_required
-def change_book_read_status(request: WSGIRequest, id):
+def change_book_read_status_view(request: WSGIRequest, id):
+    """
+    Change the read status of a book in the user's library.
+    """
     book = get_object_or_404(Book, id=id)
     user_book_instance = get_book_instance(book, request.user)
     user_book_instance.is_read = not user_book_instance.is_read
@@ -62,7 +65,7 @@ class BookView(DetailView):
         return context
 
 
-class Library(SearchBookMixin, ListView):
+class LibraryView(SearchBookMixin, ListView):
     model = Book
     template_name = 'library/library.html'
     context_object_name = 'books'
@@ -73,11 +76,11 @@ class Library(SearchBookMixin, ListView):
         return queryset
 
 
-class LibrarySearch(Library):
+class LibrarySearchView(LibraryView):
     template_name = 'library/book_list.html'
 
 
-class UserLibrary(LoginRequiredMixin, UserBookFilterMixin, ListView):
+class UserLibraryView(LoginRequiredMixin, UserBookFilterMixin, ListView):
     model = UserBookInstance
     template_name = 'library/user_library.html'
     context_object_name = 'user_books'
@@ -89,11 +92,11 @@ class UserLibrary(LoginRequiredMixin, UserBookFilterMixin, ListView):
         return queryset
 
 
-class UserLibraryFilter(UserLibrary):
+class UserLibraryFilterView(UserLibraryView):
     template_name = 'library/user_book_list.html'
 
 
-class AddBook(LoginRequiredMixin, FormView):
+class AddBookView(LoginRequiredMixin, FormView):
     template_name = 'library/add_book.html'
     form_class = BookForm
     success_url = reverse_lazy('account:user_account')
