@@ -1,6 +1,5 @@
 from django.core.exceptions import BadRequest
 from django.db.models import QuerySet, Case, When, BooleanField, Q
-from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 

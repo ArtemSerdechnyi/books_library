@@ -99,5 +99,7 @@ class AddBook(LoginRequiredMixin, FormView):
     success_url = reverse_lazy('account:user_account')
 
     def form_valid(self, form):
+        print('++++++++')
         form.save()
         return super().form_valid(form)
+
