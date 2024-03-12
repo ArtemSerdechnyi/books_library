@@ -39,7 +39,7 @@ class LoginUserView(LoginView):
         return reverse_lazy('account:user_account')
 
 
-class Account(ListView):
+class AccountView(ListView):
     model = get_user_model()
     template_name = 'account/account.html'
     context_object_name = 'user'
