@@ -23,6 +23,9 @@ def home_page_view(request: WSGIRequest):
 @require_POST
 @login_required
 def add_book_to_user_library_view(request: WSGIRequest, id):
+    """
+    Add a book to the user's library.
+    """
     book = get_object_or_404(Book, id=id)
     create_book_instance(book, request.user)
     return redirect('library:book', slug=book.slug)
@@ -31,6 +34,9 @@ def add_book_to_user_library_view(request: WSGIRequest, id):
 @require_POST
 @login_required
 def remove_book_from_user_library_view(request: WSGIRequest, id):
+    """
+    Remove a book from the user library.
+    """
     book = get_object_or_404(Book, id=id)
     user_book_instance = get_book_instance(book, request.user)
     user_book_instance.delete()
@@ -51,6 +57,9 @@ def change_book_read_status_view(request: WSGIRequest, id):
 
 
 class BookView(DetailView):
+    """
+    View for displaying details of a book, in the book page.
+    """
     model = Book
     template_name = 'library/book.html'
     context_object_name = 'book'
@@ -66,6 +75,10 @@ class BookView(DetailView):
 
 
 class LibraryView(SearchBookMixin, ListView):
+    """
+    View for displaying a list of existing books on the library page,
+    implementing search and sorting functionality, base on request query.
+    """
     model = Book
     template_name = 'library/library.html'
     context_object_name = 'books'
@@ -77,10 +90,16 @@ class LibraryView(SearchBookMixin, ListView):
 
 
 class LibrarySearchView(LibraryView):
+    """
+    View for displaying only list of existing books, base on request query.
+    """
     template_name = 'library/book_list.html'
 
 
 class UserLibraryView(LoginRequiredMixin, UserBookFilterMixin, ListView):
+    """
+    View for displaying list books in user library, full page. Implementing filtering functionality.
+    """
     model = UserBookInstance
     template_name = 'library/user_library.html'
     context_object_name = 'user_books'
@@ -93,10 +112,16 @@ class UserLibraryView(LoginRequiredMixin, UserBookFilterMixin, ListView):
 
 
 class UserLibraryFilterView(UserLibraryView):
+    """
+    View for displaying only list books in user library. Implementing filtering functionality.
+    """
     template_name = 'library/user_book_list.html'
 
 
 class AddBookView(LoginRequiredMixin, FormView):
+    """
+    View for adding a book to db.
+    """
     template_name = 'library/add_book.html'
     form_class = BookForm
     success_url = reverse_lazy('account:user_account')
@@ -104,4 +129,3 @@ class AddBookView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-

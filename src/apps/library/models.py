@@ -14,6 +14,9 @@ from .utils.models_utils import (
 
 
 class Country(FullCleanBeforeSaveMixin, models.Model):
+    """
+    Represents a country.
+    """
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
 
@@ -27,6 +30,10 @@ class Country(FullCleanBeforeSaveMixin, models.Model):
 
 
 class Author(FullCleanBeforeSaveMixin, models.Model):
+    """
+    Represents an author.
+    """
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, editable=False, null=True, blank=True)
@@ -45,6 +52,10 @@ class Author(FullCleanBeforeSaveMixin, models.Model):
 
 
 class Genre(FullCleanBeforeSaveMixin, models.Model):
+    """
+    Represents a genre.
+    """
+
     name = models.CharField(max_length=40)
     slug = models.SlugField(unique=True)
 
@@ -58,6 +69,10 @@ class Genre(FullCleanBeforeSaveMixin, models.Model):
 
 
 class Book(FullCleanBeforeSaveMixin, models.Model):
+    """
+    Represents a book.
+    """
+
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='book_images', default='default_book_image.jpg',
@@ -84,6 +99,9 @@ class Book(FullCleanBeforeSaveMixin, models.Model):
 
 
 class UserBookInstance(FullCleanBeforeSaveMixin, models.Model):
+    """
+    Represents an instance of a user owning a book.
+    """
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='books')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='instances')
     is_read = models.BooleanField(default=False)
