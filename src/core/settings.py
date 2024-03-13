@@ -21,6 +21,7 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# implement it if you need
 # BOOK_DIR = Path('src') / 'apps' / 'library' / 'books'
 # BOOK_FILE_PATH = BOOK_DIR / 'files'
 # BOOK_IMAGE_PATH = BOOK_DIR / 'images'
