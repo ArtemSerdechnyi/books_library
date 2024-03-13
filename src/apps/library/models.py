@@ -36,7 +36,7 @@ class Author(FullCleanBeforeSaveMixin, models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, editable=False, null=True, blank=True, db_index=True)
-    country = models.ForeignKey(Country, on_delete=models.PROTECT)
+    country = models.ForeignKey(Country, on_delete=models.PROTECT, null=True, blank=True)
     full_name = models.CharField(max_length=255, editable=False)
 
     def save(self, *args, **kwargs):
