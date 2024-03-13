@@ -9,6 +9,9 @@ from apps.statistic.forms import YearFilterForm
 
 
 def get_years_from_request(request: HttpRequest) -> (int, int):
+    """
+    Extracts start year and end year from the HttpRequest object.
+    """
     form = YearFilterForm(request.GET)
     if not form.is_valid():
         all_errors = form.errors.get('__all__', [])
@@ -20,6 +23,9 @@ def get_years_from_request(request: HttpRequest) -> (int, int):
 
 
 def filter_books_by_year(start_year: int, end_year: int) -> Q:
+    """
+    Creates a filter based on the given start and end years attrs.
+    """
     book_filter = Q()
     if start_year:
         book_filter &= Q(books__year_of_publication__gte=start_year)
@@ -29,6 +35,9 @@ def filter_books_by_year(start_year: int, end_year: int) -> Q:
 
 
 def get_genre_statistics(book_filter: Q) -> dict[str, int]:
+    """
+    Retrieves genre statistics based on the provided book filter.
+    """
     genre_counts = Genre.objects.annotate(
         book_count=Count('books', filter=book_filter)
     ).values('name', 'book_count').order_by('-book_count')
@@ -37,6 +46,9 @@ def get_genre_statistics(book_filter: Q) -> dict[str, int]:
 
 
 def render_genre_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    """
+    Renders the genre statistic view.
+    """
     try:
         start_year, end_year = get_years_from_request(request)
     except ValidationError as e:

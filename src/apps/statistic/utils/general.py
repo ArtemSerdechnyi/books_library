@@ -10,26 +10,42 @@ DESC_LIMIT = 5
 
 
 def get_average_age_of_books():
+    """
+    Calculate the average publication year of all books in the library
+    """
     return Book.objects.aggregate(avg_age=Avg('year_of_publication'))['avg_age']
 
 
 def get_popular_genres(limit=DESC_LIMIT):
+    """
+    Retrieve the most popular genres based on the number of books added to users library.
+    """
     popular_genres = UserBookInstance.objects.values('book__genre__name').annotate(
         genre_count=Count('book__genre__name')).order_by('-genre_count')[:limit]
     return popular_genres
 
 
 def get_popular_authors(limit=DESC_LIMIT):
+    """
+    Retrieve the most popular authors based on the number of books added to users library.
+    """
     return UserBookInstance.objects.values('book__authors__full_name').annotate(
         author_count=Count('book__authors__full_name')).order_by('-author_count')[:limit]
 
 
 def get_most_read_books(limit=DESC_LIMIT):
+    """
+    Retrieve the most read books based on the number of times they have been added to users library and marked as read.
+    """
     return UserBookInstance.objects.filter(is_read=True).values('book__title', 'book__id').annotate(
         read_count=Count('book__id')).order_by('-read_count')[:limit]
 
 
 def render_general_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    """
+    Render a view displaying general statistics about the library, including total books, average age of books,
+    popular genres, popular authors, and most read books.
+    """
     total_books = get_total_books_count()
     average_age = get_average_age_of_books()
     popular_genres = get_popular_genres()

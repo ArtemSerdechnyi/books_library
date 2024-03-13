@@ -7,12 +7,18 @@ from apps.library.models import Author
 
 
 def get_authors_with_books_count():
+    """
+    Retrieve the count of books written by each author.
+    """
     return Author.objects.annotate(
         book_count=Count('books')
     ).values('full_name', 'book_count').order_by('-book_count')
 
 
 def render_author_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    """
+    Render a view displaying statistics about authors and the count of books they have written.
+    """
     authors_with_books_count = get_authors_with_books_count()
     author_count_dict = {item['full_name']: item['book_count'] for item in authors_with_books_count}
     fig = px.pie(names=list(author_count_dict.keys()), values=list(author_count_dict.values()))

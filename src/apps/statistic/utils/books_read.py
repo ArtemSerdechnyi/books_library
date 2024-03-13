@@ -7,18 +7,31 @@ from .generic import get_total_books_count
 
 
 def get_user_books(user):
+    """
+    Retrieve all book instances associated with a given user.
+    """
     return UserBookInstance.objects.filter(user=user)
 
 
 def get_user_books_count(user):
+    """
+    Get the count of book instances associated with a given user.
+    """
     return get_user_books(user).count()
 
 
 def get_read_books_count(user):
+    """
+    Get the count of read book instances associated with a given user.
+    """
     return get_user_books(user).filter(is_read=True).count()
 
 
 def render_read_book_statistic_view(request: HttpRequest, template_name: str) -> HttpResponse:
+    """
+    Render a view displaying statistics about the books owned by the current user, including the total number of books,
+    the number of books in the user's library, and the number of books marked as read.
+    """
     user = request.user
     book_instances_count = get_user_books_count(user)
     read_book_instances_count = get_read_books_count(user)

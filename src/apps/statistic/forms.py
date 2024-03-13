@@ -4,6 +4,9 @@ from utils.utils import get_minimal_book_year, get_maximal_book_year
 
 
 class YearFilterForm(forms.Form):
+    """
+    Form for filtering by book publication year range.
+    """
     start_year = forms.IntegerField(
         label='Start Year',
         required=False,
@@ -18,6 +21,10 @@ class YearFilterForm(forms.Form):
     )
 
     def clean(self):
+        """
+        Clean method to ensure start year is not greater than end year and
+        to set default values if not provided.
+        """
         cleaned_data = super().clean()
         start_year = cleaned_data.get("start_year")
         end_year = cleaned_data.get("end_year")
