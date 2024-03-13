@@ -13,6 +13,7 @@ pillow = "^10.2.0"
 plotly = "^5.19.0"
 pandas = "^2.2.1"
 coverage = "^7.4.3"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
