@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 
-from utils.utils import get_minimal_book_year, get_maximal_book_year
+from utils.utils import get_minimal_book_year, get_maximal_book_year, get_default_book_image
 from .utils.models_utils import (
     get_accepted_book_extensions,
     validate_book_size,
@@ -72,8 +72,11 @@ class Book(FullCleanBeforeSaveMixin, models.Model):
     """
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    image = models.ImageField(upload_to='book_images', default='default_book_image.jpg',
-                              validators=[FileExtensionValidator(get_accepted_image_extensions()), validate_image_size])
+    image = models.ImageField(upload_to='book_images',
+                              default=get_default_book_image(),
+                              blank=True,
+                              validators=[FileExtensionValidator(get_accepted_image_extensions()),
+                                          validate_image_size])
     description = models.TextField(null=True, blank=True)
     authors = models.ManyToManyField(Author, related_name='books')
     genre = models.ManyToManyField(Genre, related_name='books')
@@ -81,15 +84,24 @@ class Book(FullCleanBeforeSaveMixin, models.Model):
         validators=[MinValueValidator(get_minimal_book_year()), MaxValueValidator(get_maximal_book_year())],
     )
     file = models.FileField(upload_to='book_files',
-                            validators=[FileExtensionValidator(get_accepted_book_extensions()), validate_book_size])
+                            blank=True,
+                            validators=[FileExtensionValidator(get_accepted_book_extensions()),
+                                        validate_book_size])
     added_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name='added_books')
 
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
-
         super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        del_data = super().delete(using, keep_parents)
+        if self.file:
+            self.file.delete(save=False)
+        if self.image != get_default_book_image():
+            self.image.delete(save=False)
+        return del_data
 
     def __str__(self):
         return self.title
@@ -108,3 +120,19 @@ class UserBookInstance(FullCleanBeforeSaveMixin, models.Model):
 
     class Meta:
         unique_together = ('user', 'book')
+
+#
+# from django.db.models.signals import pre_delete
+# from django.dispatch import receiver
+# from django.core.files.storage import default_storage
+#
+#
+# @receiver(pre_delete, sender=Book)
+# def delete_book_files(sender, instance, **kwargs):
+#     # Delete associated image file
+#     if instance.image:
+#         default_storage.delete(instance.image.path)
+#
+#     # Delete associated file
+#     if instance.file:
+#         default_storage.delete(instance.file.path)

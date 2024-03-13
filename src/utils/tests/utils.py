@@ -1,6 +1,7 @@
 from io import BytesIO
 
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile, SimpleUploadedFile
 
 from apps.library.models import Book, Genre, Author
 
@@ -8,8 +9,9 @@ from apps.library.models import Book, Genre, Author
 def get_mock_file(
         name,
         size_in_mb,
-) -> InMemoryUploadedFile:
+):
     full_size = size_in_mb * 1024 * 1024
+
     return InMemoryUploadedFile(
         file=BytesIO(b'test content'),
         field_name=None,
@@ -21,7 +23,7 @@ def get_mock_file(
     )
 
 
-def create_book(
+def create_book_in_db(
         title='New Book Title',
         year_of_publication=2000,
         file=get_mock_file('new_book_file.txt', 10),
