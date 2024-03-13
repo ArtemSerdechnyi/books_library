@@ -33,7 +33,6 @@ class Author(FullCleanBeforeSaveMixin, models.Model):
     """
     Represents an author.
     """
-
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, editable=False, null=True, blank=True)
@@ -55,7 +54,6 @@ class Genre(FullCleanBeforeSaveMixin, models.Model):
     """
     Represents a genre.
     """
-
     name = models.CharField(max_length=40)
     slug = models.SlugField(unique=True)
 
@@ -72,7 +70,6 @@ class Book(FullCleanBeforeSaveMixin, models.Model):
     """
     Represents a book.
     """
-
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='book_images', default='default_book_image.jpg',

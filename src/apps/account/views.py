@@ -1,4 +1,5 @@
 from django.contrib.auth import login, get_user_model, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -15,6 +16,10 @@ def logout_view(request):
 
 
 class RegistrationView(CreateView):
+    """
+    View for user registration. It uses a RegistrationForm to register users.
+    Upon successful registration, the user is logged in and redirected to their account page.
+    """
     template_name = 'account/registration.html'
     form_class = RegistrationForm
     success_url = reverse_lazy('account:account')
@@ -31,6 +36,10 @@ class RegistrationView(CreateView):
 
 
 class LoginUserView(LoginView):
+    """
+    View for user login. It uses a LoginUserForm for user authentication.
+    Upon successful login, the user is redirected to their account page.
+    """
     form_class = LoginUserForm
     template_name = 'account/login.html'
     success_url = reverse_lazy('account:user_account')
@@ -39,7 +48,10 @@ class LoginUserView(LoginView):
         return reverse_lazy('account:user_account')
 
 
-class AccountView(ListView):
+class AccountView(LoginRequiredMixin, ListView):
+    """
+    View for user account page.
+    """
     model = get_user_model()
     template_name = 'account/account.html'
     context_object_name = 'user'
@@ -51,8 +63,3 @@ class AccountView(ListView):
         user: SimpleLazyObject = self.request.user
         context['user'] = user
         return context
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated and self.redirect_unauthenticated_user:
-            return redirect(self.redirect_url)
-        return super().dispatch(request, *args, **kwargs)
