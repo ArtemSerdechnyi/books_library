@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from apps.library.models import Book, UserBookInstance
-from utils.tests.utils import create_book, get_mock_file
+from utils.tests.utils import create_book_in_db, get_mock_file
 
 
 class TestViews(TestCase):
@@ -14,9 +14,15 @@ class TestViews(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-        create_book(title='New Book')
+        create_book_in_db(title='New Book')
         self.book = Book.objects.get(title='New Book')
         self.user = get_user_model().objects.get(id=1)
+
+    def tearDown(self):
+        # called for remove created files
+        books = Book.objects.all()
+        for book in books:
+            book.delete()
 
     def test_add_book_to_user_library(self):
         url = reverse('library:add_book_to_user_library', args=[self.book.id])
@@ -152,8 +158,8 @@ class TestViews(TestCase):
                 list(equal_query)
             )
 
-        create_book(title='Second New Book', year_of_publication=-200)
-        create_book(title='A New Book', year_of_publication=0)
+        create_book_in_db(title='Second New Book', year_of_publication=-200)
+        create_book_in_db(title='A New Book', year_of_publication=0)
         UserBookInstance.objects.create(user=self.user, book=Book.objects.get(title='Second New Book'), is_read=True)
 
         url = reverse('library:library')
@@ -247,7 +253,7 @@ class TestViews(TestCase):
         )
 
     def test_user_library_view(self):
-        create_book(title='Second New Book')
+        create_book_in_db(title='Second New Book')
         UserBookInstance.objects.create(user=self.user, book=Book.objects.get(title='Second New Book'), is_read=True)
 
         url = reverse('library:user_books')
@@ -277,7 +283,7 @@ class TestViews(TestCase):
         )
 
     def test_user_library_filter_view(self):
-        create_book(title='Second New Book')
+        create_book_in_db(title='Second New Book')
         UserBookInstance.objects.create(user=self.user, book=Book.objects.get(title='Second New Book'), is_read=True)
 
         url = reverse('library:user_books_filter')
