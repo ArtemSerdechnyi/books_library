@@ -18,7 +18,7 @@ class Country(FullCleanBeforeSaveMixin, models.Model):
     Represents a country.
     """
     name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, db_index=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -35,7 +35,7 @@ class Author(FullCleanBeforeSaveMixin, models.Model):
     """
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=150)
-    slug = models.SlugField(unique=True, editable=False, null=True, blank=True)
+    slug = models.SlugField(unique=True, editable=False, null=True, blank=True, db_index=True)
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
     full_name = models.CharField(max_length=255, editable=False)
 
@@ -55,7 +55,7 @@ class Genre(FullCleanBeforeSaveMixin, models.Model):
     Represents a genre.
     """
     name = models.CharField(max_length=40)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True,  db_index=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -71,7 +71,7 @@ class Book(FullCleanBeforeSaveMixin, models.Model):
     Represents a book.
     """
     title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, db_index=True)
     image = models.ImageField(upload_to='book_images',
                               default=get_default_book_image(),
                               blank=True,
@@ -82,6 +82,7 @@ class Book(FullCleanBeforeSaveMixin, models.Model):
     genre = models.ManyToManyField(Genre, related_name='books')
     year_of_publication = models.IntegerField(
         validators=[MinValueValidator(get_minimal_book_year()), MaxValueValidator(get_maximal_book_year())],
+        db_index=True,
     )
     file = models.FileField(upload_to='book_files',
                             blank=True,
@@ -111,28 +112,12 @@ class UserBookInstance(FullCleanBeforeSaveMixin, models.Model):
     """
     Represents an instance of a user owning a book.
     """
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='books')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='books', db_index=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='instances')
-    is_read = models.BooleanField(default=False)
+    is_read = models.BooleanField(default=False, db_index=True)
 
     def __str__(self):
         return self.book.title
 
     class Meta:
         unique_together = ('user', 'book')
-
-#
-# from django.db.models.signals import pre_delete
-# from django.dispatch import receiver
-# from django.core.files.storage import default_storage
-#
-#
-# @receiver(pre_delete, sender=Book)
-# def delete_book_files(sender, instance, **kwargs):
-#     # Delete associated image file
-#     if instance.image:
-#         default_storage.delete(instance.image.path)
-#
-#     # Delete associated file
-#     if instance.file:
-#         default_storage.delete(instance.file.path)

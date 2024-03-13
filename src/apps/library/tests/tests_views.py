@@ -158,8 +158,9 @@ class TestViews(TestCase):
                 list(equal_query)
             )
 
-        create_book_in_db(title='Second New Book', year_of_publication=-200)
         create_book_in_db(title='A New Book', year_of_publication=0)
+        create_book_in_db(title='Second New Book', year_of_publication=-200)
+        create_book_in_db(title='Third New Book', year_of_publication=-200)
         UserBookInstance.objects.create(user=self.user, book=Book.objects.get(title='Second New Book'), is_read=True)
 
         url = reverse('library:library')
