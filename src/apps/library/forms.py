@@ -1,7 +1,7 @@
 from django import forms
 
 from utils.utils import get_minimal_book_year, get_maximal_book_year
-from .models import Book
+from apps.library.models import Book
 
 
 class BookForm(forms.ModelForm):

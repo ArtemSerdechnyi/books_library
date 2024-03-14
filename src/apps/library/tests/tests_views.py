@@ -214,9 +214,9 @@ class TestViews(TestCase):
 
         UserBookInstance.objects.create(user=self.user, book=Book.objects.get(title='A New Book'), is_read=True)
         read_books = list(
-            UserBookInstance.objects.filter(user=self.user, is_read=True).values_list('book_id', flat=True))
+            UserBookInstance.objects.filter(user=self.user, is_read=True)
+            .values_list('book_id', flat=True).order_by('book_id'))
         books = list(Book.objects.all().values_list('id', flat=True))
-
         # move read_books to start of the list
         for i in read_books[::-1]:
             if i in books:
