@@ -524,5 +524,104 @@
       ],
       "slug": "the-metamorphosis"
     }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "book": 2,
+      "is_read": true
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "book": 4,
+      "is_read": false
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "book": 6,
+      "is_read": false
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "book": 11,
+      "is_read": true
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 5,
+    "fields": {
+      "user": 1,
+      "book": 15,
+      "is_read": true
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 6,
+    "fields": {
+      "user": 1,
+      "book": 14,
+      "is_read": false
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 8,
+    "fields": {
+      "user": 1,
+      "book": 12,
+      "is_read": true
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 11,
+    "fields": {
+      "user": 1,
+      "book": 25,
+      "is_read": false
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 12,
+    "fields": {
+      "user": 1,
+      "book": 21,
+      "is_read": true
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 13,
+    "fields": {
+      "user": 1,
+      "book": 1,
+      "is_read": false
+    }
+  },
+  {
+    "model": "library.userbookinstance",
+    "pk": 15,
+    "fields": {
+      "user": 1,
+      "book": 24,
+      "is_read": true
+    }
   }
 ]

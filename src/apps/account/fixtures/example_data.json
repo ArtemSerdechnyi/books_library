@@ -1,0 +1,10 @@
+[
+  {
+    "model": "account.customuser",
+    "pk": 1,
+    "fields": {
+      "username": "exampleuser",
+      "password": "pbkdf2_sha256$600000$CQIC262Uk2Njn4DEZVEQPL$JyJaPCL7iLgiKKsA+cYpwOTMzbBg7UoYDrnGrPH+7oc="
+    }
+  }
+]
