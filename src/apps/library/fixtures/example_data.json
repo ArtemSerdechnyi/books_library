@@ -5,8 +5,8 @@
     "fields": {
       "first_name": "Jane",
       "last_name": "Austen",
-      "full_name": "Jane Austen",
-      "slug": "jane-austen"
+      "slug": "jane-austen",
+      "full_name": "Jane Austen"
     }
   },
   {
@@ -15,8 +15,8 @@
     "fields": {
       "first_name": "Leo",
       "last_name": "Tolstoy",
-      "full_name": "Leo Tolstoy",
-      "slug": "leo-tolstoy"
+      "slug": "leo-tolstoy",
+      "full_name": "Leo Tolstoy"
     }
   },
   {
@@ -24,9 +24,9 @@
     "pk": 3,
     "fields": {
       "first_name": "Emily",
-      "last_name": "Brontë",
-      "full_name": "Emily Brontë",
-      "slug": "emily-bronte"
+      "last_name": "Bront\u00eb",
+      "slug": "emily-bronte",
+      "full_name": "Emily Bront\u00eb"
     }
   },
   {
@@ -35,8 +35,8 @@
     "fields": {
       "first_name": "Charles",
       "last_name": "Dickens",
-      "full_name": "Charles Dickens",
-      "slug": "charles-dickens"
+      "slug": "charles-dickens",
+      "full_name": "Charles Dickens"
     }
   },
   {
@@ -44,9 +44,9 @@
     "pk": 5,
     "fields": {
       "first_name": "Gabriel",
-      "last_name": "García Márquez",
-      "full_name": "Gabriel García Márquez",
-      "slug": "gabriel-garcia-marquez"
+      "last_name": "Garc\u00eda M\u00e1rquez",
+      "slug": "gabriel-garcia-marquez",
+      "full_name": "Gabriel Garc\u00eda M\u00e1rquez"
     }
   },
   {
@@ -55,8 +55,8 @@
     "fields": {
       "first_name": "Harper",
       "last_name": "Lee",
-      "full_name": "Harper Lee",
-      "slug": "harper-lee"
+      "slug": "harper-lee",
+      "full_name": "Harper Lee"
     }
   },
   {
@@ -64,8 +64,9 @@
     "pk": 7,
     "fields": {
       "first_name": "J.R.R.",
-      "full_name": "J.R.R. Tolkien",
-      "slug": "jrr-tolkien"
+      "last_name": "Tolkien",
+      "slug": "jrr-tolkien",
+      "full_name": "J.R.R. Tolkien"
     }
   },
   {
@@ -129,7 +130,6 @@
     "pk": 1,
     "fields": {
       "title": "Pride and Prejudice",
-      "slug": "pride-and-prejudice",
       "description": "A classic novel by Jane Austen.",
       "year_of_publication": 1813,
       "authors": [
@@ -137,7 +137,8 @@
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "pride-and-prejudice"
     }
   },
   {
@@ -145,7 +146,6 @@
     "pk": 2,
     "fields": {
       "title": "War and Peace",
-      "slug": "war-and-peace",
       "description": "A historical novel by Leo Tolstoy.",
       "year_of_publication": 1869,
       "authors": [
@@ -153,7 +153,8 @@
       ],
       "genre": [
         4
-      ]
+      ],
+      "slug": "war-and-peace"
     }
   },
   {
@@ -161,15 +162,15 @@
     "pk": 3,
     "fields": {
       "title": "Wuthering Heights",
-      "slug": "wuthering-heights",
-      "description": "A novel by Emily Brontë.",
+      "description": "A novel by Emily Bront\u00eb.",
       "year_of_publication": 1847,
       "authors": [
         3
       ],
       "genre": [
         3
-      ]
+      ],
+      "slug": "wuthering-heights"
     }
   },
   {
@@ -177,7 +178,6 @@
     "pk": 4,
     "fields": {
       "title": "Great Expectations",
-      "slug": "great-expectations",
       "description": "A novel by Charles Dickens.",
       "year_of_publication": 1861,
       "authors": [
@@ -185,23 +185,8 @@
       ],
       "genre": [
         2
-      ]
-    }
-  },
-  {
-    "model": "library.book",
-    "pk": 5,
-    "fields": {
-      "title": "One Hundred Years of Solitude",
-      "slug": "one-hundred-years-of-solitude",
-      "description": "A magical realist novel by Gabriel García Márquez.",
-      "year_of_publication": 1967,
-      "authors": [
-        5
       ],
-      "genre": [
-        5
-      ]
+      "slug": "great-expectations"
     }
   },
   {
@@ -209,15 +194,17 @@
     "pk": 6,
     "fields": {
       "title": "To Kill a Mockingbird",
-      "slug": "to-kill-a-mockingbird",
       "description": "A novel by Harper Lee.",
       "year_of_publication": 1960,
       "authors": [
-        6, 5
+        6,
+        5
       ],
       "genre": [
-        3, 2
-      ]
+        3,
+        2
+      ],
+      "slug": "to-kill-a-mockingbird"
     }
   },
   {
@@ -225,15 +212,21 @@
     "pk": 7,
     "fields": {
       "title": "The Lord of the Rings",
-      "slug": "the-lord-of-the-rings",
-      "description": "A fantasy novel by J.R.R. Tolkien.",
       "year_of_publication": 1954,
       "authors": [
-        7, 6, 1
+        1,
+        6,
+        7
       ],
       "genre": [
-        7, 6, 1, 2, 3, 4
-      ]
+        1,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      "slug": "the-lord-of-the-rings"
     }
   },
   {
@@ -241,7 +234,6 @@
     "pk": 8,
     "fields": {
       "title": "Sense and Sensibility",
-      "slug": "sense-and-sensibility",
       "description": "A novel by Jane Austen.",
       "year_of_publication": 1811,
       "authors": [
@@ -249,7 +241,8 @@
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "sense-and-sensibility"
     }
   },
   {
@@ -257,31 +250,18 @@
     "pk": 9,
     "fields": {
       "title": "Anna Karenina",
-      "slug": "anna-karenina",
       "description": "A novel by Leo Tolstoy.",
       "year_of_publication": 1877,
       "authors": [
-        2, 3
-      ],
-      "genre": [
-        2, 4 , 5
-      ]
-    }
-  },
-  {
-    "model": "library.book",
-    "pk": 10,
-    "fields": {
-      "title": "Jane Eyre",
-      "slug": "jane-eyre",
-      "description": "A novel by Charlotte Brontë.",
-      "year_of_publication": 1847,
-      "authors": [
-        7
-      ],
-      "genre": [
+        2,
         3
-      ]
+      ],
+      "genre": [
+        2,
+        4,
+        5
+      ],
+      "slug": "anna-karenina"
     }
   },
   {
@@ -289,7 +269,6 @@
     "pk": 11,
     "fields": {
       "title": "Oliver Twist",
-      "slug": "oliver-twist",
       "description": "A novel by Charles Dickens.",
       "year_of_publication": 1837,
       "authors": [
@@ -297,7 +276,8 @@
       ],
       "genre": [
         4
-      ]
+      ],
+      "slug": "oliver-twist"
     }
   },
   {
@@ -305,15 +285,16 @@
     "pk": 12,
     "fields": {
       "title": "Love in the Time of Cholera",
-      "slug": "love-in-the-time-of-cholera",
-      "description": "A novel by Gabriel García Márquez.",
       "year_of_publication": 0,
       "authors": [
         5
       ],
       "genre": [
-        1, 5, 6
-      ]
+        1,
+        5,
+        6
+      ],
+      "slug": "love-in-the-time-of-cholera"
     }
   },
   {
@@ -321,15 +302,17 @@
     "pk": 13,
     "fields": {
       "title": "Go Set a Watchman",
-      "slug": "go-set-a-watchman",
       "description": "A novel by Harper Lee.",
       "year_of_publication": 2015,
       "authors": [
-        6, 1, 3
+        1,
+        3,
+        6
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "go-set-a-watchman"
     }
   },
   {
@@ -337,7 +320,6 @@
     "pk": 14,
     "fields": {
       "title": "The Hobbit",
-      "slug": "the-hobbit",
       "description": "A fantasy novel by J.R.R. Tolkien.",
       "year_of_publication": 1937,
       "authors": [
@@ -345,7 +327,8 @@
       ],
       "genre": [
         7
-      ]
+      ],
+      "slug": "the-hobbit"
     }
   },
   {
@@ -353,7 +336,6 @@
     "pk": 15,
     "fields": {
       "title": "Persuasion",
-      "slug": "persuasion",
       "description": "A novel by Jane Austen.",
       "year_of_publication": -200,
       "authors": [
@@ -361,7 +343,8 @@
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "persuasion"
     }
   },
   {
@@ -369,7 +352,6 @@
     "pk": 16,
     "fields": {
       "title": "The Death of Ivan Ilyich",
-      "slug": "the-death-of-ivan-ilyich",
       "description": "A novella by Leo Tolstoy.",
       "year_of_publication": -200,
       "authors": [
@@ -377,7 +359,8 @@
       ],
       "genre": [
         3
-      ]
+      ],
+      "slug": "the-death-of-ivan-ilyich"
     }
   },
   {
@@ -385,15 +368,15 @@
     "pk": 17,
     "fields": {
       "title": "Jane Eyre",
-      "slug": "jane-eyre-2",
       "description": "A novel by Charlotte Brontë.",
       "year_of_publication": 1847,
       "authors": [
-        8
+        7
       ],
       "genre": [
         3
-      ]
+      ],
+      "slug": "jane-eyre"
     }
   },
   {
@@ -401,7 +384,6 @@
     "pk": 18,
     "fields": {
       "title": "A Tale of Two Cities",
-      "slug": "a-tale-of-two-cities",
       "description": "A novel by Charles Dickens.",
       "year_of_publication": -2,
       "authors": [
@@ -409,7 +391,8 @@
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "a-tale-of-two-cities"
     }
   },
   {
@@ -417,7 +400,6 @@
     "pk": 19,
     "fields": {
       "title": "One Hundred Years of Solitude",
-      "slug": "one-hundred-years-of-solitude-2",
       "description": "A magical realist novel by Gabriel García Márquez.",
       "year_of_publication": 0,
       "authors": [
@@ -425,23 +407,8 @@
       ],
       "genre": [
         5
-      ]
-    }
-  },
-  {
-    "model": "library.book",
-    "pk": 20,
-    "fields": {
-      "title": "Go Set a Watchman",
-      "slug": "go-set-a-watchman-2",
-      "description": "A novel by Harper Lee.",
-      "year_of_publication": 2015,
-      "authors": [
-        6
       ],
-      "genre": [
-        2
-      ]
+      "slug": "one-hundred-years-of-solitude"
     }
   },
   {
@@ -449,15 +416,17 @@
     "pk": 21,
     "fields": {
       "title": "The Fellowship of the Ring",
-      "slug": "the-fellowship-of-the-ring",
       "description": "A fantasy novel by J.R.R. Tolkien.",
       "year_of_publication": 1954,
       "authors": [
-        7, 1
+        7,
+        1
       ],
       "genre": [
-        7, 2
-      ]
+        7,
+        2
+      ],
+      "slug": "the-fellowship-of-the-ring"
     }
   },
   {
@@ -481,15 +450,16 @@
     "pk": 23,
     "fields": {
       "title": "The Brothers Karamazov",
-      "slug": "the-brothers-karamazov",
       "description": "A novel by Fyodor Dostoevsky.",
       "year_of_publication": 1880,
       "authors": [
         3
       ],
       "genre": [
-        2
-      ]
+        2,
+        1
+      ],
+      "slug": "the-brothers-karamazov"
     }
   },
   {
@@ -497,7 +467,6 @@
     "pk": 24,
     "fields": {
       "title": "Crime and Punishment",
-      "slug": "crime-and-punishment",
       "description": "A novel by Fyodor Dostoevsky.",
       "year_of_publication": 1866,
       "authors": [
@@ -505,15 +474,15 @@
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "crime-and-punishment"
     }
   },
   {
     "model": "library.book",
-    "pk": 28,
+    "pk": 25,
     "fields": {
       "title": "Northanger Abbey",
-      "slug": "northanger-abbey",
       "description": "A novel by Jane Austen.",
       "year_of_publication": 1817,
       "authors": [
@@ -521,15 +490,15 @@
       ],
       "genre": [
         2
-      ]
+      ],
+      "slug": "northanger-abbey"
     }
   },
   {
     "model": "library.book",
-    "pk": 29,
+    "pk": 26,
     "fields": {
       "title": "The Trial",
-      "slug": "the-trial",
       "description": "A novel by Franz Kafka.",
       "year_of_publication": 1925,
       "authors": [
@@ -537,24 +506,23 @@
       ],
       "genre": [
         6
-      ]
+      ],
+      "slug": "the-trial"
     }
   },
   {
     "model": "library.book",
-    "pk": 30,
+    "pk": 27,
     "fields": {
       "title": "The Metamorphosis",
-      "slug": "the-metamorphosis",
-      "description": "A novella by Franz Kafka.",
       "year_of_publication": 1915,
       "authors": [
         6
       ],
       "genre": [
         6
-      ]
+      ],
+      "slug": "the-metamorphosis"
     }
   }
 ]
-
