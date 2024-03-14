@@ -9,6 +9,7 @@ help:
 	@echo "  createsuperuser, csu	: Create a superuser"
 	@echo "  makemigrations, mm	: Create new migrations"
 	@echo "  migrate, mig		: Apply migrations to the database"
+	@echo "  exampledb		: Load example database"
 
 runserver:
 	$(MANAGE) migrate
@@ -33,4 +34,4 @@ updb:
 exampledb:
 	$(MANAGE) makemigrations
 	$(MANAGE) migrate
-	$(MANAGE) loaddata src/apps/library/fixtures/example_data.json
+	$(MANAGE) loaddata src/apps/*/fixtures/example_data.json

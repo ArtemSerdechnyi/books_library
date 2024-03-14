@@ -22,7 +22,7 @@ class RegistrationView(CreateView):
     """
     template_name = 'account/registration.html'
     form_class = RegistrationForm
-    success_url = reverse_lazy('account:account')
+    success_url = reverse_lazy('account:user_account')
 
     def form_valid(self, form):
         user = form.save()

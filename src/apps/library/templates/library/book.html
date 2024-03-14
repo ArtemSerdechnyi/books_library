@@ -63,7 +63,11 @@
                                     <button type="submit" class="btn btn-success">Add to my library</button>
                                 </form>
                             {% endif %}
-                            <p><a href="{{ book.file.url }}" class="btn btn-primary">Download</a></p>
+                            {% if book.file %}
+                                <p><a href="{{ book.file.url }}" class="btn btn-primary">Download</a></p>
+                            {% else %}
+                                <p>Book file not found</p>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
