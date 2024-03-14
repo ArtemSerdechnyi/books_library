@@ -1,6 +1,6 @@
 MANAGE = poetry run python src/manage.py
 
-.PHONY: help runserver test createsuperuser csu makemigrations mm migrate mig updb exampledb
+.PHONY: help runserver test createsuperuser csu makemigrations mm migrate mig updb exampledb runindocker
 
 help:
 	@echo "Please use 'make <target>' where <target> is one of"
@@ -35,3 +35,6 @@ exampledb:
 	$(MANAGE) makemigrations
 	$(MANAGE) migrate
 	$(MANAGE) loaddata src/apps/*/fixtures/example_data.json
+
+runindocker:
+	$(MANAGE) runserver 0.0.0.0:8000
