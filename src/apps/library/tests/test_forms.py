@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from apps.library.models import Book, Author
+from apps.library.models import Book
 from apps.library.forms import BookForm
 
 

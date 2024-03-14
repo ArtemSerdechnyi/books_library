@@ -1,0 +1,48 @@
+name: Tests
+on: [ push, pull_request ]
+
+jobs:
+  tests:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: load cached poetry installation
+        id: cached-poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.local
+          key: poetry-v1-${{ hashFiles('pyproject.toml') }}
+
+      - name: Install Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.7.1
+
+      - name: install python
+        id: setup-python
+        uses: actions/setup-python@v5
+        with:
+          cache: 'poetry'
+          python-version-file: 'pyproject.toml'
+
+      - name: make sure poetry lockfile is up to date
+        run: poetry check --lock && echo Lockfile is ok, $(poetry --version)
+        shell: bash
+
+      - name: install deps
+        if: steps.setup-python.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+        shell: bash
+
+      - name: create db
+        run: make updb
+        shell: bash
+
+      - name: run django tests
+        run: make test
+        shell: bash
